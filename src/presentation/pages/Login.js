@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from '../components/Card';
+import Formulario from '../components/Formulario';
 
 class Login extends React.Component {
   render() {
@@ -9,6 +10,7 @@ class Login extends React.Component {
           <div className='col-md-6' style={{position: 'relative', left: '300px'}}>
             <div className='bs-docs-section'>
               <Card title="Login">
+                <Formulario />
               </Card>
             </div>
           </div>
