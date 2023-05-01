@@ -1,24 +1,29 @@
 import React from "react";
 import FormGroup from "./FormGroup";
-import Button from "./Button";
 
 class Formulario extends React.Component {
-  
-  state = {
-    email: '',
-    password: '',
-  };
+  constructor(props) {
+    super(props);
+
+    this.handleOnClick = this.handleOnClick.bind(this);
+
+    this.state = {
+      email: "",
+      password: "",
+    };
+  }
 
   onChangeInput = (event) => {
     let valor = event.target.value;
-    if(event.target.id === 'email') {
-      this.setState({ email: valor });
-    }else {
-      this.setState({ password: valor });
-    }
+    let id = event.target.id;
+      
+    this.setState({ [id]: valor });
+  };
+
+  handleOnClick(event) {
+
   }
 
-  
   render() {
     return (
       <div className="row">
@@ -47,16 +52,8 @@ class Formulario extends React.Component {
                   onChange={(event) => this.onChangeInput(event)}
                 />
               </FormGroup>
-              <Button
-                title="Entrar"
-                className="btn btn-success"
-                onClick={this.login}
-              />
-              <Button
-                title="Cadastrar"
-                className="btn btn-danger"
-                onClick={this.login}
-              />
+              <button className="btn btn-success" onClick={(event) => this.handleOnClick(event)}>Entrar</button>
+              <button className="btn btn-danger" onClick={(event) => this.handleOnClick(event)}>Cadastrar</button>
             </fieldset>
           </div>
         </div>
