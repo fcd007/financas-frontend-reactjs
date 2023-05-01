@@ -1,11 +1,13 @@
-import './App.css';
+import React from 'react';
 
-function App() {
-  return (
-    <div>
-      <button type='button' className='btn btn-primary'>Primary</button>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <button type='button' className='btn btn-primary'>Primary</button>
+      </div>
+    );
+  }
 }
 
 export default App;
