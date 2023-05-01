@@ -1,11 +1,10 @@
 import React from 'react';
+import Login from './presentation/pages/Login';
 
 class App extends React.Component {
   render() {
     return (
-      <div>
-        <button type='button' className='btn btn-primary'>Primary</button>
-      </div>
+     <Login />
     );
   }
 }
