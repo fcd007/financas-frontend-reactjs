@@ -30,6 +30,7 @@ class Formulario extends React.Component {
         <div className="col-lg-12">
           <div className="bs-component">
             <fieldset>
+            <div style={{padding: '20px'}}>
               <FormGroup htmlFor="email" label="Email: *">
                 <input
                   type="email"
@@ -52,8 +53,11 @@ class Formulario extends React.Component {
                   onChange={(event) => this.onChangeInput(event)}
                 />
               </FormGroup>
-              <button className="btn btn-success" onClick={(event) => this.handleOnClick(event)}>Entrar</button>
-              <button className="btn btn-danger" onClick={(event) => this.handleOnClick(event)}>Cadastrar</button>
+              </div>
+              <div style={{padding: '10px'}}>
+                <button className="btn btn-success" onClick={(event) => this.handleOnClick(event)}>Entrar</button>
+                <button className="btn btn-danger" style={{marginLeft: '20px'}} onClick={(event) => this.handleOnClick(event)}>Cadastrar</button>
+              </div>
             </fieldset>
           </div>
         </div>
