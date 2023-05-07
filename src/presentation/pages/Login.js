@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from '../components/Card';
-import Formulario from '../components/Formulario';
+import FormularioLogin from '../components/FormularioLogin';
 
 class Login extends React.Component {
 
@@ -11,7 +11,7 @@ class Login extends React.Component {
           <div className='col-md-6' style={{position: 'relative', left: '300px'}}>
             <div className='bs-docs-section'>
               <Card title="Login">
-                <Formulario />
+                <FormularioLogin />
               </Card>
             </div>
           </div>
