@@ -26,9 +26,6 @@ class CadastroUsuario extends React.Component {
   };
 
   handleOnClick(event) {
-    console.log("====================================");
-    console.log(this.state);
-    console.log("====================================");
   }
 
   render() {
