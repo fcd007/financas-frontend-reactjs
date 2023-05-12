@@ -17,9 +17,6 @@ class Login extends React.Component {
   }
 
   handleOnClick(event) {
-    console.log('====================================');
-    console.log(this.state);
-    console.log('====================================');
   }
 
   onChangeInput = (event) => {
