@@ -1,11 +1,11 @@
 import React from "react";
-import NavbarItem from "./NavbarItem";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
     <div className="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
         <div className="container">
-          <a href="/" className="navbar-brand" style={{fontSize: "20px", fontWeight: "bolder"}}>Minhas Finanças</a>
+          <Link to="/" className="navbar-brand" style={{fontSize: "20px", fontWeight: "bolder"}}>Minhas Finanças</Link>
           <button 
             className="navbar-toggler" 
             type="button" data-toggle="collapse" 
@@ -18,10 +18,10 @@ function Navbar() {
           </button>
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav">
-              <NavbarItem href="/" label="Home" />
-              <NavbarItem href="/cadastro-usuarios" label="Usuários" />
-              <NavbarItem href="/lancamentos" label="Lançamentos" />
-              <NavbarItem href="/login" label="Login" />
+              <Link className="nav-link" to="/">Home</Link>
+              <Link className="nav-link" to="/cadastro-usuarios">Usuários</Link>
+              <Link className="nav-link" to="/lancamentos">Lançamentos</Link>
+              <Link className="nav-link" to="/login">Login</Link>
             </ul>
           </div>
         </div>
