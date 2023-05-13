@@ -8,7 +8,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleOnClick = this.handleOnClick.bind(this);
+    this.prepararCadastrar = this.prepararCadastrar.bind(this);
+    this.prepararEntrar = this.prepararEntrar.bind(this);
     this.onChangeInput = this.onChangeInput.bind(this);
 
     this.state = {
@@ -19,18 +20,27 @@ class Login extends React.Component {
     };
   }
 
-  handleOnClick(event) {
+  prepararCadastrar(event) {
+    const shouldRedirect = true;
+    let navetageToRoute = "";
+    let id = event.target.id;
+
+    if(id === "cadastro") {
+      navetageToRoute = "/cadastro-usuarios";
+      this.setState({ shouldRedirect, navetageToRoute });
+    }
+  }
+
+  prepararEntrar(event) {
     const shouldRedirect = true;
     let navetageToRoute = "";
     let id = event.target.id;
 
     if(id === "login") {
-      navetageToRoute = "/cadastro-usuarios";
-    }else if(id === "cadastro") {
-      navetageToRoute = "/cadastro-usuarios";
+      console.log(shouldRedirect, navetageToRoute);
+      // navetageToRoute = "/login";
+      // this.setState({ shouldRedirect, navetageToRoute });
     }
-
-    this.setState({ shouldRedirect, navetageToRoute });
   }
 
   onChangeInput = (event) => {
@@ -87,7 +97,7 @@ class Login extends React.Component {
                           id="login"
                           name="login"
                           className="btn btn-success"
-                          onClick={(event) => this.handleOnClick(event)}
+                          onClick={(event) => this.prepararEntrar(event)}
                         >
                           Entrar
                         </button>
@@ -96,7 +106,7 @@ class Login extends React.Component {
                           name="cadastro"
                           className="btn btn-danger"
                           style={{ marginLeft: "20px" }}
-                          onClick={(event) => this.handleOnClick(event)}
+                          onClick={(event) => this.prepararCadastrar(event)}
                         >
                           Cadastrar
                         </button>
