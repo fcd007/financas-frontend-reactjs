@@ -19,8 +19,8 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav">
               <Link className="nav-link" to="/">Home</Link>
-              <Link className="nav-link" to="/cadastro-usuarios">Usuários</Link>
-              <Link className="nav-link" to="/lancamentos">Lançamentos</Link>
+              <Link className="nav-link" to="/cadastrar-usuarios">Usuários</Link>
+              <Link className="nav-link" to="/cadastrar-lancamentos">Lançamentos</Link>
               <Link className="nav-link" to="/login">Login</Link>
             </ul>
           </div>

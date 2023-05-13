@@ -25,8 +25,8 @@ class Login extends React.Component {
     let navetageToRoute = "";
     let id = event.target.id;
 
-    if(id === "cadastro") {
-      navetageToRoute = "/cadastro-usuarios";
+    if(id === "cadastrar") {
+      navetageToRoute = "/cadastrar-usuarios";
       this.setState({ shouldRedirect, navetageToRoute });
     }
   }
@@ -102,8 +102,8 @@ class Login extends React.Component {
                           Entrar
                         </button>
                         <button
-                          id="cadastro"
-                          name="cadastro"
+                          id="cadastrar"
+                          name="cadastrar"
                           className="btn btn-danger"
                           style={{ marginLeft: "20px" }}
                           onClick={(event) => this.prepararCadastrar(event)}

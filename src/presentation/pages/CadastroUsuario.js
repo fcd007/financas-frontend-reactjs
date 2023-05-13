@@ -59,7 +59,7 @@ class CadastroUsuario extends React.Component {
           <Navigate replace to={navetageToRoute} />
         ) : (
           <div className="container">
-            <Card title="Cadastro de Usuário">
+            <Card title="Cadastrar de Usuário">
               <Container>
                 <FormGroup htmlFor="nome" label="Nome: *">
                   <input
