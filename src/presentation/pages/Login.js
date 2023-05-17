@@ -41,11 +41,14 @@ class Login extends React.Component {
 
     if (id === "login") {
       axios
-        .post("http://localhost:8080/api/v1/usuarios/autenticarUsuario", {
+        .post(`http://localhost:8080/api/v1/usuarios/autenticarUsuario`, {
           email,
           senha,
         }).then((response) => {
           if(!!response) {
+            let usuario_data = JSON.stringify(response.data);
+            localStorage.setItem("_usuario_logado", usuario_data)
+
             navetageToRoute = "/home";
             this.setState({ shouldRedirect, navetageToRoute });
           }
