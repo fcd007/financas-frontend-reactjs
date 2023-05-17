@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
 import Container from "../components/Container";
@@ -17,7 +17,7 @@ class Login extends React.Component {
       email: "",
       senha: "",
       shouldRedirect: false,
-      navetageToRoute: undefined
+      navetageToRoute: undefined,
     };
   }
 
@@ -26,7 +26,7 @@ class Login extends React.Component {
     let navetageToRoute = "";
     let id = event.target.id;
 
-    if(id === "cadastrar") {
+    if (id === "cadastrar") {
       navetageToRoute = "/cadastrar-usuarios";
       this.setState({ shouldRedirect, navetageToRoute });
     }
@@ -38,16 +38,18 @@ class Login extends React.Component {
     let navetageToRoute = "";
     let id = event.target.id;
 
-    if(id === "login") {
+    if (id === "login") {
       axios
-        .post('http://localhost:8080/api/v1/usuarios/autenticarUsuario', {
-          email, 
-          senha
-        }).then(response => {
-          console.log(response);
-        }).catch( error => {
-          console.log(error.response);
+        .post("http://localhost:8080/api/v1/usuarios/autenticarUsuario", {
+          email,
+          senha,
         })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
     }
   }
 
