@@ -1,5 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import axios from "axios";
 
 class Home extends React.Component {
   constructor(props) {
@@ -12,6 +13,15 @@ class Home extends React.Component {
     this.state = {
       saldo: 0
     };
+  }
+
+  componentDidMount() {
+    axios.get("http://localhost:8080/api/v1/usuarios/saldo/2")
+    .then(response => {
+      this.setState({ saldo: response.data });
+    }).catch(error => {
+      console.log(error.data);
+    })
   }
 
   prepararCadastrar(event) {
