@@ -10,6 +10,7 @@ function Rotas() {
     <Routes>
       <Route index path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/cadastrar-usuarios" element={<CadastroUsuario />} />
       <Route path="*" element={<Page404 />} />
     </Routes>

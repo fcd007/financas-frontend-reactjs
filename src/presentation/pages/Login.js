@@ -18,6 +18,7 @@ class Login extends React.Component {
       senha: "",
       shouldRedirect: false,
       navetageToRoute: undefined,
+      mensagemErro: null
     };
   }
 
@@ -43,12 +44,13 @@ class Login extends React.Component {
         .post("http://localhost:8080/api/v1/usuarios/autenticarUsuario", {
           email,
           senha,
-        })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error.response);
+        }).then((response) => {
+          if(!!response) {
+            navetageToRoute = "/home";
+            this.setState({ shouldRedirect, navetageToRoute });
+          }
+        }).catch((error) => {
+          this.setState({ mensagemErro: error.response.data });
         });
     }
   }
@@ -75,6 +77,9 @@ class Login extends React.Component {
               >
                 <div className="bs-docs-section">
                   <Card title="Login">
+                    <div className="row">
+                      <span>{this.state.mensagemErro}</span>
+                    </div>
                     <Container>
                       <FormGroup htmlFor="email" label="Email: *">
                         <input
