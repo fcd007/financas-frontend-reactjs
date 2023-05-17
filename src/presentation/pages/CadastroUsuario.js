@@ -15,7 +15,7 @@ class CadastroUsuario extends React.Component {
     this.state = {
       nome: "",
       email: "",
-      password: "",
+      senha: "",
       repeat: "",
       shouldRedirect: false,
       navetageToRoute: undefined,
@@ -91,10 +91,10 @@ class CadastroUsuario extends React.Component {
                     style={{ paddingTop: "5px" }}
                     type="password"
                     className="form-control"
-                    id="password"
+                    id="senha"
                     aria-describedby="password"
                     placeholder="Digite sua senha"
-                    value={this.state.password}
+                    value={this.state.senha}
                     onChange={(event) => this.onChangeInput(event)}
                   />
                 </FormGroup>

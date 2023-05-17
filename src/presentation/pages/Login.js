@@ -1,8 +1,9 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
+import axios from 'axios';
 import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
 import Container from "../components/Container";
-import { Navigate } from "react-router-dom";
 
 class Login extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class Login extends React.Component {
 
     this.state = {
       email: "",
-      password: "",
+      senha: "",
       shouldRedirect: false,
       navetageToRoute: undefined
     };
@@ -32,14 +33,21 @@ class Login extends React.Component {
   }
 
   prepararEntrar(event) {
+    let { email, senha } = this.state;
     const shouldRedirect = true;
     let navetageToRoute = "";
     let id = event.target.id;
 
     if(id === "login") {
-      console.log(shouldRedirect, navetageToRoute);
-      // navetageToRoute = "/login";
-      // this.setState({ shouldRedirect, navetageToRoute });
+      axios
+        .post('http://localhost:8080/api/v1/usuarios/autenticarUsuario', {
+          email, 
+          senha
+        }).then(response => {
+          console.log(response);
+        }).catch( error => {
+          console.log(error.response);
+        })
     }
   }
 
@@ -84,11 +92,11 @@ class Login extends React.Component {
                           style={{ paddingTop: "5px" }}
                           type="password"
                           className="form-control"
-                          id="password"
-                          name="password"
+                          id="senha"
+                          name="senha"
                           aria-describedby="password"
                           placeholder="Digite sua senha"
-                          value={this.state.password}
+                          value={this.state.senha}
                           onChange={(event) => this.onChangeInput(event)}
                         />
                       </FormGroup>
