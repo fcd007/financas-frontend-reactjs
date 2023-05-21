@@ -4,6 +4,7 @@ import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
 import Container from "../components/Container";
 import UsuarioService from "../../infra/service/usuarioService/UsuarioService";
+import LocalStorageService from "../../infra/service/localStorageService";
 
 class Login extends React.Component {
   constructor(props) {
@@ -33,18 +34,16 @@ class Login extends React.Component {
 
   prepararEntrar = (event) => {
     let { email, senha } = this.state;
-    let credenciais = { email, senha };
 
     const shouldRedirect = true;
     let navetageToRoute = "";
     let id = event.target.id;
 
     if (id === "login") {
-      this.UsuarioService.autenticar({ credenciais })
+      this.UsuarioService.autenticar({ email, senha })
         .then((response) => {
           if (!!response) {
-            let usuario_data = JSON.stringify(response.data);
-            localStorage.setItem("_usuario_logado", usuario_data);
+            LocalStorageService.addItem("_usuario_logado", response.data);
 
             navetageToRoute = "/home";
             this.setState({ shouldRedirect, navetageToRoute });
