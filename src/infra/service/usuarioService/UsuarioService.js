@@ -1,17 +1,19 @@
 import ApiService from "../Apiservice";
 
-const USUARIOS = '/api/v1/usuarios';
+const USUARIOS = "/api/v1/usuarios";
 
-class UsuarioService extends ApiService{
-
+class UsuarioService extends ApiService {
   constructor() {
-    super(USUARIOS)
+    super(USUARIOS);
   }
 
   autenticar(credenciais) {
     return this.post("/autenticarUsuario", credenciais);
   }
-  
+
+  obterSaldoPorUsuarioId(id) {
+    return this.get(`/saldo/${id}`);
+  }
 }
 
 export default UsuarioService;
