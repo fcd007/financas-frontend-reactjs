@@ -1,28 +1,26 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import axios from "axios";
 import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
 import Container from "../components/Container";
+import UsuarioService from "../../infra/service/usuarioService/UsuarioService";
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
 
-    this.prepararCadastrar = this.prepararCadastrar.bind(this);
-    this.prepararEntrar = this.prepararEntrar.bind(this);
-    this.onChangeInput = this.onChangeInput.bind(this);
+    this.UsuarioService = new UsuarioService();
 
     this.state = {
       email: "",
       senha: "",
       shouldRedirect: false,
       navetageToRoute: undefined,
-      mensagemErro: null
+      mensagemErro: null,
     };
   }
 
-  prepararCadastrar(event) {
+  prepararCadastrar = (event) => {
     const shouldRedirect = true;
     let navetageToRoute = "";
     let id = event.target.id;
@@ -33,26 +31,26 @@ class Login extends React.Component {
     }
   }
 
-  prepararEntrar(event) {
+  prepararEntrar = (event) => {
     let { email, senha } = this.state;
+    let credenciais = { email, senha };
+
     const shouldRedirect = true;
     let navetageToRoute = "";
     let id = event.target.id;
 
     if (id === "login") {
-      axios
-        .post(`http://localhost:8080/api/v1/usuarios/autenticarUsuario`, {
-          email,
-          senha,
-        }).then((response) => {
-          if(!!response) {
+      this.UsuarioService.autenticar({ credenciais })
+        .then((response) => {
+          if (!!response) {
             let usuario_data = JSON.stringify(response.data);
-            localStorage.setItem("_usuario_logado", usuario_data)
+            localStorage.setItem("_usuario_logado", usuario_data);
 
             navetageToRoute = "/home";
             this.setState({ shouldRedirect, navetageToRoute });
           }
-        }).catch((error) => {
+        })
+        .catch((error) => {
           this.setState({ mensagemErro: error.response.data });
         });
     }
@@ -97,7 +95,7 @@ class Login extends React.Component {
                           onChange={(event) => this.onChangeInput(event)}
                         />
                       </FormGroup>
-                      <FormGroup htmlFor="password" label="Senha: *">
+                      <FormGroup htmlFor="senha" label="Senha: *">
                         <input
                           style={{ paddingTop: "5px" }}
                           type="password"
