@@ -1,13 +1,13 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import axios from "axios";
+import UsuarioService from "../../infra/service/usuarioService/UsuarioService";
+import LocalStorageService from "../../infra/service/localStorageService";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    this.prepararCadastrar = this.prepararCadastrar.bind(this);
-    this.prepararLancamento = this.prepararLancamento.bind(this);
+    this.UsuarioService = new UsuarioService();
 
     this.state = {
       saldo: 0,
@@ -16,11 +16,9 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    let usuarioLogado = localStorage.getItem("_usuario_logado");
-    if(!!usuarioLogado) {
-      let usuario = JSON.parse(usuarioLogado);
-      axios
-      .get(`http://localhost:8080/api/v1/usuarios/saldo/${usuario.id}`)
+    let usuario = LocalStorageService.obterItem("_usuario_logado");
+    if(!!usuario) {
+      this.UsuarioService.obterSaldoPorUsuarioId(usuario.id)
       .then((response) => {
         this.setState({ saldo: response.data, usuarioId: usuario });
       })
@@ -30,7 +28,7 @@ class Home extends React.Component {
     }
   }
 
-  prepararCadastrar(event) {
+  prepararCadastrar = (event) => {
     const shouldRedirect = true;
     let navetageToRoute = "";
     let id = event.target.id;
@@ -41,7 +39,7 @@ class Home extends React.Component {
     }
   }
 
-  prepararLancamento(event) {
+  prepararLancamento = (event) => {
     const shouldRedirect = true;
     let navetageToRoute = "";
     let id = event.target.id;
