@@ -18,6 +18,7 @@ class Login extends React.Component {
       shouldRedirect: false,
       navetageToRoute: undefined,
       mensagemErro: null,
+      showMensagem: null,
     };
   }
 
@@ -30,7 +31,7 @@ class Login extends React.Component {
       navetageToRoute = "/cadastrar-usuarios";
       this.setState({ shouldRedirect, navetageToRoute });
     }
-  }
+  };
 
   prepararEntrar = (event) => {
     let { email, senha } = this.state;
@@ -50,10 +51,12 @@ class Login extends React.Component {
           }
         })
         .catch((error) => {
-          this.setState({ mensagemErro: error.response.data });
+          this.setState({
+            mensagemErro: error.response.data,
+          });
         });
     }
-  }
+  };
 
   onChangeInput = (event) => {
     let valor = event.target.value;
@@ -77,9 +80,6 @@ class Login extends React.Component {
               >
                 <div className="bs-docs-section">
                   <Card title="Login">
-                    <div className="row">
-                      <span>{this.state.mensagemErro}</span>
-                    </div>
                     <Container>
                       <FormGroup htmlFor="email" label="Email: *">
                         <input
