@@ -43,7 +43,9 @@ class CadastroUsuario extends React.Component {
     this.UsuarioService.salvarUsuario(usuario)
       .then((response) => {  
         showToastSuccess("Usuário cadastrado com sucesso!");
-        this.setState({ shouldRedirect, navetageToRoute });
+        setTimeout(() => {
+          this.setState({ shouldRedirect, navetageToRoute });
+        }, 5000);
       })
       .catch((error) => {
         showToastError(error.response.data);
