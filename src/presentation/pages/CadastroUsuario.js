@@ -3,13 +3,18 @@ import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
 import Container from "../components/Container";
 import { Navigate } from "react-router-dom";
+import UsuarioService from "../../infra/service/usuarioService/UsuarioService";
+import { ToastContainer } from "react-toastify";
+import { showToastError, showToastSuccess } from "../components/ToastCustom";
 
 class CadastroUsuario extends React.Component {
   constructor(props) {
     super(props);
 
-    this.prepareCancelar = this.prepareCancelar.bind(this);
-    this.prepareCadastrar = this.prepareCadastrar.bind(this);
+    this.UsuarioService = new UsuarioService();
+
+    this.cancelar = this.cancelar.bind(this);
+    this.cadastrar = this.cadastrar.bind(this);
     this.onChangeInput = this.onChangeInput.bind(this);
 
     this.state = {
@@ -29,17 +34,23 @@ class CadastroUsuario extends React.Component {
     this.setState({ [id]: valor });
   };
 
-  prepareCadastrar = (event) => {
+  cadastrar = (event) => {
+    let { nome, email, senha } = this.state;
+    const usuario = { nome, email, senha };
     const shouldRedirect = true;
-    let id = event.target.id;
-    let navetageToRoute = id;
+    let navetageToRoute = "/login";
 
-    if (id === "cadastrar") {
-      console.log(navetageToRoute, shouldRedirect);
-    }
+    this.UsuarioService.salvarUsuario(usuario)
+      .then((response) => {  
+        showToastSuccess("Usuário cadastrado com sucesso!");
+        this.setState({ shouldRedirect, navetageToRoute });
+      })
+      .catch((error) => {
+        showToastError(error.response.data);
+      });
   };
 
-  prepareCancelar = (event) => {
+  cancelar = (event) => {
     const shouldRedirect = true;
     let navetageToRoute = "";
     let id = event.target.id;
@@ -55,6 +66,7 @@ class CadastroUsuario extends React.Component {
 
     return (
       <>
+        <ToastContainer />
         {shouldRedirect === true ? (
           <Navigate replace to={navetageToRoute} />
         ) : (
@@ -116,7 +128,7 @@ class CadastroUsuario extends React.Component {
                     id="cadastrar"
                     name="cadastrar"
                     className="btn btn-success"
-                    onClick={(event) => this.prepareCadastrar(event)}
+                    onClick={(event) => this.cadastrar(event)}
                   >
                     Salvar
                   </button>
@@ -125,7 +137,7 @@ class CadastroUsuario extends React.Component {
                     name="cancelar"
                     className="btn btn-danger"
                     style={{ marginLeft: "20px" }}
-                    onClick={(event) => this.prepareCancelar(event)}
+                    onClick={(event) => this.cancelar(event)}
                   >
                     Cancelar
                   </button>
