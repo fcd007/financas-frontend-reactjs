@@ -5,6 +5,8 @@ import FormGroup from "../components/FormGroup";
 import Container from "../components/Container";
 import UsuarioService from "../../infra/service/usuarioService/UsuarioService";
 import LocalStorageService from "../../infra/service/localStorageService";
+import { ToastContainer} from 'react-toastify';
+import { showToastError } from "../components/ToastCustom";
 
 class Login extends React.Component {
   constructor(props) {
@@ -51,9 +53,7 @@ class Login extends React.Component {
           }
         })
         .catch((error) => {
-          this.setState({
-            mensagemErro: error.response.data,
-          });
+          showToastError(error.response.data);
         });
     }
   };
@@ -69,6 +69,7 @@ class Login extends React.Component {
     let { shouldRedirect, navetageToRoute } = this.state;
     return (
       <>
+        <ToastContainer />
         {shouldRedirect === true ? (
           <Navigate replace to={navetageToRoute} />
         ) : (
