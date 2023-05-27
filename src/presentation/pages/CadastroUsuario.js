@@ -27,6 +27,31 @@ class CadastroUsuario extends React.Component {
     };
   }
 
+  validar() {
+    const mensagens = [];
+    let { nome, email, senha, repeat } = this.state;
+
+    if (!nome) {
+      mensagens.push("O campo nome é obrigatório.");
+    }
+
+    if (!email) {
+      mensagens.push("O campo email é obrigatório.");
+    } else if (!email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/)) {
+      mensagens.push("Informe um email válido.");
+    }
+
+    if (!senha || !repeat) {
+      mensagens.push("Digite a senha 2 vezes.");
+    } else if (senha !== repeat) {
+      mensagens.push(
+        "As senhas não são iguais. por favor digite novamente as senhas."
+      );
+    }
+
+    return mensagens;
+  }
+
   onChangeInput = (event) => {
     let valor = event.target.value;
     let id = event.target.id;
@@ -40,8 +65,18 @@ class CadastroUsuario extends React.Component {
     const shouldRedirect = true;
     let navetageToRoute = "/login";
 
+    const mensagens = this.validar();
+
+    if(mensagens && mensagens.length > 0) {
+      mensagens.forEach((msg, index) => {
+        showToastError(msg);
+      });
+
+      return false;
+    }
+
     this.UsuarioService.salvarUsuario(usuario)
-      .then((response) => {  
+      .then((response) => {
         showToastSuccess("Usuário cadastrado com sucesso!");
         setTimeout(() => {
           this.setState({ shouldRedirect, navetageToRoute });
