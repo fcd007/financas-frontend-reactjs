@@ -2,6 +2,8 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import UsuarioService from "../../infra/service/usuarioService/UsuarioService";
 import LocalStorageService from "../../infra/service/localStorageService";
+import { ToastContainer} from 'react-toastify';
+import { showToastError } from "../components/ToastCustom";
 
 class Home extends React.Component {
   constructor(props) {
@@ -23,7 +25,7 @@ class Home extends React.Component {
         this.setState({ saldo: response.data, usuarioId: usuario });
       })
       .catch((error) => {
-        console.log(error.data);
+        showToastError(error.response.data);
       });
     }
   }
@@ -54,6 +56,7 @@ class Home extends React.Component {
     let { shouldRedirect, navetageToRoute } = this.state;
     return (
       <>
+        <ToastContainer />
         {shouldRedirect === true ? (
           <Navigate replace to={navetageToRoute} />
         ) : (
