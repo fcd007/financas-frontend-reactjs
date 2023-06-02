@@ -6,6 +6,7 @@ import FormGroup from "../components/FormGroup";
 import { Col, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import MESES_ANO from "./../../data/constants/meses";
+import TIPO_LANCAMENTO from "./../../data/constants/tipoLancamento";
 import SelectList from "../components/SelectList";
 
 class LancamentosConsulta extends React.Component {
@@ -13,14 +14,16 @@ class LancamentosConsulta extends React.Component {
     super(props);
 
     this.state = {
-      lista: MESES_ANO,
+      listaMeses: MESES_ANO,
+      tiposLancamento: TIPO_LANCAMENTO,
       filtro: {},
       listaLancamentos: [],
     };
   }
 
   render() {
-    let { shouldRedirect, navetageToRoute, lista } = this.state;
+    let { shouldRedirect, navetageToRoute, listaMeses, tiposLancamento } =
+      this.state;
     return (
       <>
         {shouldRedirect === true ? (
@@ -44,7 +47,10 @@ class LancamentosConsulta extends React.Component {
                     />
                   </Col>
                   <Col>
-                    <SelectList lista={lista} />
+                    <SelectList lista={listaMeses} />
+                  </Col>
+                  <Col>
+                    <SelectList lista={tiposLancamento} />
                   </Col>
                 </Row>
               </FormGroup>
