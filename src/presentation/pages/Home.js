@@ -47,7 +47,7 @@ class Home extends React.Component {
     let id = event.target.id;
 
     if (id === "lancamento") {
-      navetageToRoute = "/cadastrar-lancamentos";
+      navetageToRoute = "/consultar-lancamentos";
       this.setState({ shouldRedirect, navetageToRoute });
     }
   }
