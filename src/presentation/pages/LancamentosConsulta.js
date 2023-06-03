@@ -1,30 +1,36 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Stack } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
 import SelectList from "../components/SelectList";
-import { MESES_ANO, SITUACAO, TIPO_LANCAMENTO } from "./../../data/constants/index";
-
+import {
+  MESES_ANO,
+  SITUACAO,
+  TIPO_LANCAMENTO,
+} from "./../../data/constants/index";
+import LancamentoService from "../../infra/service/lancamentoService/LancamentoService";
 
 class LancamentosConsulta extends React.Component {
   constructor(props) {
     super(props);
 
+    this.LancamentoService = new LancamentoService();
+
     this.state = {
       listaMeses: MESES_ANO,
       tiposLancamento: TIPO_LANCAMENTO,
       listaStatus: SITUACAO,
-      filtro: {
-        id: "",
-        descricao: "",
-        valor: "",
-        tipo: "",
-        data: "",
-        situacao: "",
-      },
+      id: "",
+      descricao: "",
+      valor: "",
+      tipo: "",
+      data: "",
+      situacao: "",
+      mes: "",
+      ano: "",
       listaLancamentos: [
         {
           id: 1,
@@ -38,6 +44,16 @@ class LancamentosConsulta extends React.Component {
     };
   }
 
+  componentDidMount() {}
+
+  buscar = () => {
+    console.log(this.state);
+  };
+
+  cadastrar = () => {
+    console.log("Cadastrar");
+  };
+
   render() {
     let {
       shouldRedirect,
@@ -46,7 +62,7 @@ class LancamentosConsulta extends React.Component {
       tiposLancamento,
       listaStatus,
     } = this.state;
-    console.log(this.state.listaLancamentos);
+
     return (
       <>
         {shouldRedirect === true ? (
@@ -66,8 +82,8 @@ class LancamentosConsulta extends React.Component {
                       name="descricao"
                       aria-describedby="text"
                       placeholder="Descrição"
-                      value={this.state.filtro.descricao}
-                      onChange={(event) => this.onChangeInput(event)}
+                      value={this.state.descricao}
+                      onChange={(event) => this.setState({descricao: event.target.value})}
                     />
                   </Col>
                   <Col>
@@ -80,21 +96,53 @@ class LancamentosConsulta extends React.Component {
                       name="valor"
                       aria-describedby="text"
                       placeholder="R$100,00"
-                      value={this.state.filtro.valor}
-                      onChange={(event) => this.onChangeInput(event)}
+                      value={this.state.valor}
+                      onChange={(event) => this.setState({valor: event.target.value})}
                     />
                   </Col>
                   <Col>
                     <label htmlFor="tipo">Tipo:</label>
-                    <SelectList lista={tiposLancamento} />
+                    <SelectList
+                      lista={tiposLancamento}
+                      value={this.state.tipo}
+                      onChange={(event) => this.setState({tipo: event.target.value})}
+                    />
                   </Col>
                   <Col>
                     <label htmlFor="mes">Mês:</label>
-                    <SelectList lista={listaMeses} />
+                    <SelectList
+                      lista={listaMeses}
+                      value={this.state.mes}
+                      onChange={(event) => this.setState({mes: event.target.value})}
+                    />
                   </Col>
                   <Col>
-                    <label htmlFor="status">Situação:</label>
-                    <SelectList lista={listaStatus} />
+                    <label htmlFor="situacao">Situação:</label>
+                    <SelectList
+                      lista={listaStatus}
+                      value={this.state.situacao}
+                      onChange={(event) => this.setState({situacao: event.target.value})}
+                    />
+                  </Col>
+                  <Col style={{ marginTop: "20px" }}>
+                    <Stack direction="horizontal" gap={2}>
+                      <button
+                        id="buscar"
+                        name="buscar"
+                        className="btn btn-success"
+                        onClick={(event) => this.buscar(event)}
+                      >
+                        Buscar
+                      </button>
+                      <button
+                        id="cadastrar"
+                        name="cadastrar"
+                        className="btn btn-danger"
+                        onClick={(event) => this.cadastrar(event)}
+                      >
+                        Cadastrar
+                      </button>
+                    </Stack>
                   </Col>
                 </Row>
               </FormGroup>
