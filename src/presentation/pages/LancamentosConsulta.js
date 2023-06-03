@@ -1,13 +1,13 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { Col, Row } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
-import { Col, Row } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
-import MESES_ANO from "./../../data/constants/meses";
-import TIPO_LANCAMENTO from "./../../data/constants/tipoLancamento";
 import SelectList from "../components/SelectList";
+import { MESES_ANO, SITUACAO, TIPO_LANCAMENTO } from "./../../data/constants/index";
+
 
 class LancamentosConsulta extends React.Component {
   constructor(props) {
@@ -16,16 +16,36 @@ class LancamentosConsulta extends React.Component {
     this.state = {
       listaMeses: MESES_ANO,
       tiposLancamento: TIPO_LANCAMENTO,
-      filtro: {},
-      listaLancamentos: [],
+      listaStatus: SITUACAO,
+      filtro: {
+        id: "",
+        descricao: "",
+        valor: "",
+        tipo: "",
+        data: "",
+        situacao: "",
+      },
+      listaLancamentos: [
+        {
+          id: 1,
+          descricao: "teste descrição",
+          valor: "R$100,00",
+          tipo: TIPO_LANCAMENTO[0].descricao,
+          data: "10/06/2023",
+          situacao: SITUACAO[0].descricao,
+        },
+      ],
     };
   }
 
-
-
   render() {
-    let { shouldRedirect, navetageToRoute, listaMeses, tiposLancamento } =
-      this.state;
+    let {
+      shouldRedirect,
+      navetageToRoute,
+      listaMeses,
+      tiposLancamento,
+      listaStatus,
+    } = this.state;
     console.log(this.state.listaLancamentos);
     return (
       <>
@@ -37,29 +57,48 @@ class LancamentosConsulta extends React.Component {
               <FormGroup htmlFor="ano">
                 <Row>
                   <Col>
-                    <label htmlFor="ano">Ano:</label>
+                    <label htmlFor="descricao">Descrição:</label>
                     <Form.Control
                       style={{ paddingTop: "16px" }}
                       type="text"
                       className="form-control"
-                      id="nome"
-                      name="nome"
+                      id="descricao"
+                      name="descricao"
                       aria-describedby="text"
-                      placeholder="Digite o ano"
-                      value={this.state.nome}
+                      placeholder="Descrição"
+                      value={this.state.filtro.descricao}
                       onChange={(event) => this.onChangeInput(event)}
                     />
+                  </Col>
+                  <Col>
+                    <label htmlFor="valor">Valor R$:</label>
+                    <Form.Control
+                      style={{ paddingTop: "16px" }}
+                      type="text"
+                      className="form-control"
+                      id="valor"
+                      name="valor"
+                      aria-describedby="text"
+                      placeholder="R$100,00"
+                      value={this.state.filtro.valor}
+                      onChange={(event) => this.onChangeInput(event)}
+                    />
+                  </Col>
+                  <Col>
+                    <label htmlFor="tipo">Tipo:</label>
+                    <SelectList lista={tiposLancamento} />
                   </Col>
                   <Col>
                     <label htmlFor="mes">Mês:</label>
                     <SelectList lista={listaMeses} />
                   </Col>
                   <Col>
-                    <label htmlFor="tipo">Tipo:</label>
-                    <SelectList lista={tiposLancamento} />
+                    <label htmlFor="status">Situação:</label>
+                    <SelectList lista={listaStatus} />
                   </Col>
                 </Row>
               </FormGroup>
+              <Card value={"card mb-12"}>
                 <Table striped bordered hover>
                   <thead>
                     <tr>
@@ -81,11 +120,13 @@ class LancamentosConsulta extends React.Component {
                         <td>{lancamento.tipo}</td>
                         <td>{lancamento.data}</td>
                         <td>{lancamento.situacao}</td>
-                        <td>Ações</td>
+                        {/* Criar botoes para acoes -visualizar, editar, excluir*/}
+                        <td></td>
                       </tr>
                     ))}
                   </tbody>
                 </Table>
+              </Card>
             </Card>
           </div>
         )}
