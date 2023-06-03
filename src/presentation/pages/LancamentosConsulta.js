@@ -17,13 +17,41 @@ class LancamentosConsulta extends React.Component {
       listaMeses: MESES_ANO,
       tiposLancamento: TIPO_LANCAMENTO,
       filtro: {},
-      listaLancamentos: [],
+      listaLancamentos: [
+        {
+          id: 1,
+          descricao: "Supermercado",
+          valor: "R$150,00",
+          tipo: TIPO_LANCAMENTO[0].descricao,
+          data: "01/06/2023",
+          situacao: "Pendente",
+        },
+        {
+          id: 2,
+          descricao: "Padaria",
+          valor: "R$15,00",
+          tipo: TIPO_LANCAMENTO[0].descricao,
+          data: "01/06/2023",
+          situacao: "Pendente",
+        },
+        {
+          id: 3,
+          descricao: "Farmacia",
+          valor: "R$120,00",
+          tipo: TIPO_LANCAMENTO[0].descricao,
+          data: "01/06/2023",
+          situacao: "Pendente",
+        },
+      ],
     };
   }
+
+
 
   render() {
     let { shouldRedirect, navetageToRoute, listaMeses, tiposLancamento } =
       this.state;
+    console.log(this.state.listaLancamentos);
     return (
       <>
         {shouldRedirect === true ? (
@@ -31,11 +59,12 @@ class LancamentosConsulta extends React.Component {
         ) : (
           <div className="container">
             <Card value={"card mb-12"} title={"Lançamentos Consulta"}>
-              <FormGroup htmlFor="ano" label="Ano:">
+              <FormGroup htmlFor="ano">
                 <Row>
                   <Col>
+                    <label htmlFor="ano">Ano:</label>
                     <Form.Control
-                      style={{ paddingTop: "5px" }}
+                      style={{ paddingTop: "16px" }}
                       type="text"
                       className="form-control"
                       id="nome"
@@ -47,40 +76,41 @@ class LancamentosConsulta extends React.Component {
                     />
                   </Col>
                   <Col>
+                    <label htmlFor="mes">Mês:</label>
                     <SelectList lista={listaMeses} />
                   </Col>
                   <Col>
+                    <label htmlFor="tipo">Tipo:</label>
                     <SelectList lista={tiposLancamento} />
                   </Col>
                 </Row>
               </FormGroup>
-              <Card value={"card mb-12"}>
-                <Row>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Id</th>
-                        <th>Descrição</th>
-                        <th>Valor R$</th>
-                        <th>Tipo</th>
-                        <th>Data</th>
-                        <th>Situação</th>
-                        <th>Ações</th>
-                      </tr>
-                    </thead>
-                    {this.state.listaLancamentos.map((lancamento) => {
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Descrição</th>
+                      <th>Valor R$</th>
+                      <th>Tipo</th>
+                      <th>Data</th>
+                      <th>Situação</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.listaLancamentos.map((lancamento) => (
                       <tr key={lancamento.id}>
+                        <td>{lancamento.id}</td>
                         <td>{lancamento.descricao}</td>
                         <td>{lancamento.valor}</td>
                         <td>{lancamento.tipo}</td>
                         <td>{lancamento.data}</td>
-                        <td>{lancamento.situcao}</td>
+                        <td>{lancamento.situacao}</td>
                         <td>Ações</td>
-                      </tr>;
-                    })}
-                  </Table>
-                </Row>
-              </Card>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
             </Card>
           </div>
         )}
