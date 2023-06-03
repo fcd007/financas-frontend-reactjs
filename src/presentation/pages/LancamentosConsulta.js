@@ -17,32 +17,7 @@ class LancamentosConsulta extends React.Component {
       listaMeses: MESES_ANO,
       tiposLancamento: TIPO_LANCAMENTO,
       filtro: {},
-      listaLancamentos: [
-        {
-          id: 1,
-          descricao: "Supermercado",
-          valor: "R$150,00",
-          tipo: TIPO_LANCAMENTO[0].descricao,
-          data: "01/06/2023",
-          situacao: "Pendente",
-        },
-        {
-          id: 2,
-          descricao: "Padaria",
-          valor: "R$15,00",
-          tipo: TIPO_LANCAMENTO[0].descricao,
-          data: "01/06/2023",
-          situacao: "Pendente",
-        },
-        {
-          id: 3,
-          descricao: "Farmacia",
-          valor: "R$120,00",
-          tipo: TIPO_LANCAMENTO[0].descricao,
-          data: "01/06/2023",
-          situacao: "Pendente",
-        },
-      ],
+      listaLancamentos: [],
     };
   }
 
