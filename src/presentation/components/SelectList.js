@@ -1,19 +1,19 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 
-export default function SelectList(props) {
-  const options = props.lista.map((option) => {
-    return (
-      <option key={option.id} value={option.id}>
+function SelectList (props) {
+  const options = props.lista.map((option, index) => {
+    return( 
+      <option key={index} value={option.id}>
         {option.descricao}
       </option>
-    );
-  });
+    )
+  })
 
-  return (
-    <Form.Select>
-      <option value="">Selecione</option>
+  return(   
+    <Form.Select {...props}>
       {options}
     </Form.Select>
-  );
-}
+  )}
+
+export default SelectList;
