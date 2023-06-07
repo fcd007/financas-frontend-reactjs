@@ -12,6 +12,7 @@ function SelectList (props) {
 
   return(   
     <Form.Select {...props}>
+      <option value="">Selecione</option>
       {options}
     </Form.Select>
   )}
