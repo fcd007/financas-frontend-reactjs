@@ -1,6 +1,6 @@
 const TIPO_LANCAMENTO = [
-  { id: "RECEITA", descricao: "Despesa" },
-  { id: "DESPESA", descricao: "Receita" },
+  { id: "DESPESA", descricao: "Despesa" },
+  { id: "RECEITA", descricao: "Receita" },
 ];
 
 export default TIPO_LANCAMENTO;
