@@ -6,12 +6,16 @@ import Table from "react-bootstrap/Table";
 import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
 import SelectList from "../components/SelectList";
+import { showToastError } from "../components/ToastCustom";
+import { ToastContainer } from "react-toastify";
+
 import {
   MESES_ANO,
   SITUACAO,
   TIPO_LANCAMENTO,
 } from "./../../data/constants/index";
 import LancamentoService from "../../infra/service/lancamentoService/LancamentoService";
+import LocalStorageService from "../../infra/service/localStorageService";
 
 class LancamentosConsulta extends React.Component {
   constructor(props) {
@@ -31,28 +35,30 @@ class LancamentosConsulta extends React.Component {
       situacao: "",
       mes: "",
       ano: "",
-      listaLancamentos: [
-        {
-          id: 1,
-          descricao: "teste descrição",
-          valor: "R$100,00",
-          tipo: TIPO_LANCAMENTO[0].descricao,
-          data: "10/06/2023",
-          situacao: SITUACAO[0].descricao,
-        },
-      ],
+      listaLancamentos: [],
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.buscar();
+  }
 
   buscar = () => {
-    console.log(this.state);
+    let { descricao, valor, tipo, situacao, mes, ano } = this.state;
+    let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
+    let usuario = usuarioLogado.id;
+    let filtro = { descricao, valor, tipo, mes, ano, situacao, usuario };
+
+    this.LancamentoService.buscar(filtro)
+      .then((response) => {
+        this.setState({ listaLancamentos: response.data });
+      })
+      .catch((error) => {
+        showToastError(error.response.data.message);
+      });
   };
 
-  cadastrar = () => {
-    console.log("Cadastrar");
-  };
+  cadastrar = () => {};
 
   render() {
     let {
@@ -65,6 +71,7 @@ class LancamentosConsulta extends React.Component {
 
     return (
       <>
+        <ToastContainer />
         {shouldRedirect === true ? (
           <Navigate replace to={navetageToRoute} />
         ) : (
@@ -83,7 +90,9 @@ class LancamentosConsulta extends React.Component {
                       aria-describedby="text"
                       placeholder="Descrição"
                       value={this.state.descricao}
-                      onChange={(event) => this.setState({descricao: event.target.value})}
+                      onChange={(event) =>
+                        this.setState({ descricao: event.target.value })
+                      }
                     />
                   </Col>
                   <Col>
@@ -97,7 +106,9 @@ class LancamentosConsulta extends React.Component {
                       aria-describedby="text"
                       placeholder="R$100,00"
                       value={this.state.valor}
-                      onChange={(event) => this.setState({valor: event.target.value})}
+                      onChange={(event) =>
+                        this.setState({ valor: event.target.value })
+                      }
                     />
                   </Col>
                   <Col>
@@ -105,7 +116,9 @@ class LancamentosConsulta extends React.Component {
                     <SelectList
                       lista={tiposLancamento}
                       value={this.state.tipo}
-                      onChange={(event) => this.setState({tipo: event.target.value})}
+                      onChange={(event) =>
+                        this.setState({ tipo: event.target.value })
+                      }
                     />
                   </Col>
                   <Col>
@@ -113,7 +126,9 @@ class LancamentosConsulta extends React.Component {
                     <SelectList
                       lista={listaMeses}
                       value={this.state.mes}
-                      onChange={(event) => this.setState({mes: event.target.value})}
+                      onChange={(event) =>
+                        this.setState({ mes: event.target.value })
+                      }
                     />
                   </Col>
                   <Col>
@@ -121,7 +136,9 @@ class LancamentosConsulta extends React.Component {
                     <SelectList
                       lista={listaStatus}
                       value={this.state.situacao}
-                      onChange={(event) => this.setState({situacao: event.target.value})}
+                      onChange={(event) =>
+                        this.setState({ situacao: event.target.value })
+                      }
                     />
                   </Col>
                   <Col style={{ marginTop: "20px" }}>

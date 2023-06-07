@@ -8,7 +8,37 @@ class LancamentoService extends ApiService {
   }
 
   buscar(filtro) {
-    return this.get(`/buscar`, filtro);
+    let params;
+
+    if(filtro.descricao) {
+      params = `${params}&descricao=${filtro.descricao}`;
+    }
+
+    if(filtro.valor) {
+      params = `${params}&valor=${filtro.valor}`;
+    }
+
+    if(filtro.tipo) {
+      params = `${params}&tipo=${filtro.tipo}`;
+    }
+
+    if(filtro.mes) {
+      params = `${params}&mes=${filtro.mes}`;
+    }
+
+    if(filtro.ano) {
+      params = `${params}&mes=${filtro.ano}`;
+    }
+
+    if(filtro.situacao) {
+      params = `${params}&situacao=${filtro.situacao}`;
+    }
+
+    if(filtro.usuario) {
+      params = `${params}&usuario=${filtro.usuario}`;
+    }
+
+    return this.get(`/buscar?${params}`);
   }
 
   buscarLcanamentoId(id) {
