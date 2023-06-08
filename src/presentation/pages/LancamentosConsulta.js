@@ -6,7 +6,7 @@ import Table from "react-bootstrap/Table";
 import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
 import SelectList from "../components/SelectList";
-import { showToastError } from "../components/ToastCustom";
+import { showToastError, showToastSuccess } from "../components/ToastCustom";
 import { ToastContainer } from "react-toastify";
 import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat";
 import {
@@ -60,8 +60,8 @@ class LancamentosConsulta extends React.Component {
 
   cadastrar = () => {};
 
-  atualizar = (id, lancamento) => {
-    console.log(id, lancamento);
+  atualizar = (lancamento) => {
+    console.log(lancamento);
     // this.LancamentoService.atualizar(id, lancamento)
     //   .then((response) => {
     //     this.setState({ listaLancamentos: response.data });
@@ -75,15 +75,19 @@ class LancamentosConsulta extends React.Component {
     console.log(lancamento);
   };
 
-  deletar = (id) => {
-    console.log(id);
-    // this.LancamentoService.delete(id)
-    //   .then((response) => {
-    //     this.setState({ listaLancamentos: response.data });
-    //   })
-    //   .catch((error) => {
-    //     showToastError(error.response.data.message);
-    //   });
+  deletar = (lancamento) => {
+    this.LancamentoService.deletar(lancamento.id)
+      .then((response) => {
+        const listaLancamentos = this.state.listaLancamentos;
+        let index = this.state.listaLancamentos.indexOf(lancamento);
+        listaLancamentos.splice(index, 1);
+        this.setState(listaLancamentos);
+
+        showToastSuccess("Lançamento deletado com sucesso!");
+      })
+      .catch((error) => {
+        showToastError(error.response.data.message);
+      });
   };
 
   render() {
@@ -228,7 +232,9 @@ class LancamentosConsulta extends React.Component {
                             type="button"
                             className="btn btn-warning btn-sm"
                             style={{ marginRight: "15px" }}
-                            onClick={(event) => this.atualizar(lancamento.id, lancamento)}
+                            onClick={(event) =>
+                              this.atualizar(lancamento)
+                            }
                           >
                             Editar
                           </button>
@@ -236,7 +242,7 @@ class LancamentosConsulta extends React.Component {
                           <button
                             type="button"
                             className="btn btn-danger btn-sm"
-                            onClick={(event) => this.deletar(lancamento.id)}
+                            onClick={(event) => this.deletar(lancamento)}
                           >
                             Deletar
                           </button>
