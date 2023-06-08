@@ -197,7 +197,8 @@ class LancamentosConsulta extends React.Component {
                       <th>Descrição</th>
                       <th>Valor R$</th>
                       <th>Tipo</th>
-                      <th>Data</th>
+                      <th>Data Criação</th>
+                      <th>Data Atualização</th>
                       <th>Situação</th>
                       <th>Ações</th>
                     </tr>
@@ -209,8 +210,9 @@ class LancamentosConsulta extends React.Component {
                         <td>{lancamento.descricao}</td>
                         <td>{formatarEmRealBrasileiro(lancamento.valor)}</td>
                         <td>{lancamento.tipo}</td>
-                        <td>{lancamento.data}</td>
-                        <td>{lancamento.situacao}</td>
+                        <td>{lancamento.dataCriacaoFormatada}</td>
+                        <td>{lancamento.dataCriacaoFormatada}</td>
+                        <td>{lancamento.status}</td>
                         {/* Criar botoes para acoes -visualizar, editar, excluir*/}
                         <td style={{ width: "300px" }}>
                           <button

@@ -1,3 +1,9 @@
+export function dataHoraMinutoSegundo(data) {
+  const dateObject = new Date(data);
+  const humanDateFormat = dateObject.toLocaleString();
+  return humanDateFormat;
+}
+
 export function getTodayObj() {
   return new Date();
 }
