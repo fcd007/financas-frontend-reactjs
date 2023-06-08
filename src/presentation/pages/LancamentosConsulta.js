@@ -8,6 +8,7 @@ import FormGroup from "../components/FormGroup";
 import SelectList from "../components/SelectList";
 import { showToastError } from "../components/ToastCustom";
 import { ToastContainer } from "react-toastify";
+import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat"
 
 import {
   MESES_ANO,
@@ -181,7 +182,7 @@ class LancamentosConsulta extends React.Component {
                       <tr key={lancamento.id}>
                         <td>{lancamento.id}</td>
                         <td>{lancamento.descricao}</td>
-                        <td>{lancamento.valor}</td>
+                        <td>{formatarEmRealBrasileiro(lancamento.valor)}</td>
                         <td>{lancamento.tipo}</td>
                         <td>{lancamento.data}</td>
                         <td>{lancamento.situacao}</td>
