@@ -4,6 +4,7 @@ import UsuarioService from "../../infra/service/usuarioService/UsuarioService";
 import LocalStorageService from "../../infra/service/localStorageService";
 import { ToastContainer} from 'react-toastify';
 import { showToastError } from "../components/ToastCustom";
+import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat"
 
 class Home extends React.Component {
   constructor(props) {
@@ -64,7 +65,7 @@ class Home extends React.Component {
             <h1 className="display-3">Bem vindo!</h1>
             <p className="lead">Esse é seu sistema de finanças.</p>
             <p className="lead">
-              Seu saldo para o mês atual é de R$ {this.state.saldo}
+              Seu saldo para o mês atual é de {formatarEmRealBrasileiro(this.state.saldo)}
             </p>
             <hr className="my-4" />
             <p>
