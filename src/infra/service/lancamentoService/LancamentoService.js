@@ -58,7 +58,7 @@ class LancamentoService extends ApiService {
   }
 
   delete(id) {
-    return this.delete(`/updateStatus/${id}`);
+    return this.delete(`/delete/${id}`);
   }
 }
 

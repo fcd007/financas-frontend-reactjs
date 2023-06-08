@@ -8,8 +8,7 @@ import FormGroup from "../components/FormGroup";
 import SelectList from "../components/SelectList";
 import { showToastError } from "../components/ToastCustom";
 import { ToastContainer } from "react-toastify";
-import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat"
-
+import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat";
 import {
   MESES_ANO,
   SITUACAO,
@@ -41,10 +40,10 @@ class LancamentosConsulta extends React.Component {
   }
 
   componentDidMount() {
-    this.buscar();
+    this.buscarLancamentos();
   }
 
-  buscar = () => {
+  buscarLancamentos = () => {
     let { descricao, valor, tipo, situacao, mes, ano } = this.state;
     let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
     let usuario = usuarioLogado.id;
@@ -60,6 +59,32 @@ class LancamentosConsulta extends React.Component {
   };
 
   cadastrar = () => {};
+
+  atualizar = (id, lancamento) => {
+    console.log(id, lancamento);
+    // this.LancamentoService.atualizar(id, lancamento)
+    //   .then((response) => {
+    //     this.setState({ listaLancamentos: response.data });
+    //   })
+    //   .catch((error) => {
+    //     showToastError(error.response.data.message);
+    //   });
+  };
+
+  visualizar = (lancamento) => {
+    console.log(lancamento);
+  };
+
+  deletar = (id) => {
+    console.log(id);
+    // this.LancamentoService.delete(id)
+    //   .then((response) => {
+    //     this.setState({ listaLancamentos: response.data });
+    //   })
+    //   .catch((error) => {
+    //     showToastError(error.response.data.message);
+    //   });
+  };
 
   render() {
     let {
@@ -187,7 +212,33 @@ class LancamentosConsulta extends React.Component {
                         <td>{lancamento.data}</td>
                         <td>{lancamento.situacao}</td>
                         {/* Criar botoes para acoes -visualizar, editar, excluir*/}
-                        <td></td>
+                        <td style={{ width: "300px" }}>
+                          <button
+                            type="button"
+                            className="btn btn-primary btn-sm"
+                            style={{ marginRight: "15px" }}
+                            onClick={(event) => this.visualizar(lancamento)}
+                          >
+                            Visualizar
+                          </button>
+
+                          <button
+                            type="button"
+                            className="btn btn-warning btn-sm"
+                            style={{ marginRight: "15px" }}
+                            onClick={(event) => this.atualizar(lancamento.id, lancamento)}
+                          >
+                            Editar
+                          </button>
+
+                          <button
+                            type="button"
+                            className="btn btn-danger btn-sm"
+                            onClick={(event) => this.deletar(lancamento.id)}
+                          >
+                            Deletar
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
