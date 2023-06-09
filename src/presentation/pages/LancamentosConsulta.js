@@ -5,15 +5,13 @@ import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import SelectList from "../components/SelectList";
 import { showToastError, showToastSuccess } from "../components/ToastCustom";
 import { ToastContainer } from "react-toastify";
 import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat";
-import {
-  MESES_ANO,
-  SITUACAO,
-  TIPO_LANCAMENTO,
-} from "./../../data/constants/index";
+import { MESES_ANO, SITUACAO, TIPO_LANCAMENTO } from "./../../data/constants/index";
 import LancamentoService from "../../infra/service/lancamentoService/LancamentoService";
 import LocalStorageService from "../../infra/service/localStorageService";
 
@@ -24,6 +22,7 @@ class LancamentosConsulta extends React.Component {
     this.LancamentoService = new LancamentoService();
 
     this.state = {
+      listaLancamentos: [],
       listaMeses: MESES_ANO,
       tiposLancamento: TIPO_LANCAMENTO,
       listaStatus: SITUACAO,
@@ -35,7 +34,9 @@ class LancamentosConsulta extends React.Component {
       situacao: "",
       mes: "",
       ano: "",
-      listaLancamentos: [],
+      show: false,
+      deleteConfirme: false,
+      selecaoDelete: undefined
     };
   }
 
@@ -75,7 +76,20 @@ class LancamentosConsulta extends React.Component {
     console.log(lancamento);
   };
 
+  handleClose = () => {
+    this.setState({ show: false, deleteConfirme: false });
+  }
+
+  handleShow = (lancamento) => {
+    this.setState({ show: true, selecaoDelete: lancamento});
+  }
+  
+  confirmeDeletar = () => {
+    this.deletar(this.state.selecaoDelete);
+  }
+
   deletar = (lancamento) => {
+
     this.LancamentoService.deletar(lancamento.id)
       .then((response) => {
         const listaLancamentos = this.state.listaLancamentos;
@@ -107,6 +121,16 @@ class LancamentosConsulta extends React.Component {
         ) : (
           <div className="container">
             <Card value={"card mb-12"} title={"Lançamentos Consulta"}>
+              <Modal show={this.state.show} onHide={this.handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Apagar Lançamento</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Tem certeza que deseja deletar registro?</Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={this.handleClose}>Cancelar</Button>
+                  <Button variant="danger" onClick={this.confirmeDeletar}>Deletar</Button>
+                </Modal.Footer>
+              </Modal>
               <FormGroup htmlFor="ano">
                 <Row>
                   <Col>
@@ -242,7 +266,7 @@ class LancamentosConsulta extends React.Component {
                           <button
                             type="button"
                             className="btn btn-danger btn-sm"
-                            onClick={(event) => this.deletar(lancamento)}
+                            onClick={(event) => this.handleShow(lancamento)}
                           >
                             Deletar
                           </button>
