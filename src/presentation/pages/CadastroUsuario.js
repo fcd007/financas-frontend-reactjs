@@ -13,10 +13,6 @@ class CadastroUsuario extends React.Component {
 
     this.UsuarioService = new UsuarioService();
 
-    this.cancelar = this.cancelar.bind(this);
-    this.cadastrar = this.cadastrar.bind(this);
-    this.onChangeInput = this.onChangeInput.bind(this);
-
     this.state = {
       nome: "",
       email: "",

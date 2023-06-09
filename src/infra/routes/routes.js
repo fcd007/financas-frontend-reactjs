@@ -5,6 +5,7 @@ import Login from "../../presentation/pages/Login";
 import CadastroUsuario from "../../presentation/pages/CadastroUsuario";
 import Home from "../../presentation/pages/Home";
 import LancamentosConsulta from "../../presentation/pages/LancamentosConsulta";
+import CadastroLancamentos from "../../presentation/pages/CadastroLancamentos";
 
 function Rotas() {
   return (
@@ -14,6 +15,7 @@ function Rotas() {
       <Route path="/home" element={<Home />} />
       <Route path="/cadastrar-usuarios" element={<CadastroUsuario />} />
       <Route path="/consultar-lancamentos" element={<LancamentosConsulta />} />
+      <Route path="/cadastrar-lancamentos" element={<CadastroLancamentos />} />
       <Route path="*" element={<Page404 />} />
     </Routes>
   );
