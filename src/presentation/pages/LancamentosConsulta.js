@@ -59,7 +59,16 @@ class LancamentosConsulta extends React.Component {
       });
   };
 
-  cadastrar = () => {};
+  cadastrar = (event) => {
+    const shouldRedirect = true;
+    let navetageToRoute = "";
+    let id = event.target.id;
+
+    if (id === "cadastrar") {
+      navetageToRoute = "/cadastrar-lancamentos";
+      this.setState({ shouldRedirect, navetageToRoute });
+    }
+  }
 
   atualizar = (lancamento) => {
     console.log(lancamento);
