@@ -6,7 +6,7 @@ import Container from "../components/Container";
 import Form from "react-bootstrap/Form";
 import SelectList from "../components/SelectList";
 import { ToastContainer } from "react-toastify";
-import { MESES_ANO, SITUACAO, TIPO_LANCAMENTO } from "./../../data/constants/index";
+import { MESES_ANO, STATUS, TIPO_LANCAMENTO } from "./../../data/constants/index";
 import LancamentoService from "../../infra/service/lancamentoService/LancamentoService";
 import { showToastError, showToastSuccess } from "../components/ToastCustom";
 import LocalStorageService from "../../infra/service/localStorageService";
@@ -20,15 +20,16 @@ class CadastroLancamentos extends React.Component {
     this.state = {
       listaMeses: MESES_ANO,
       tiposLancamento: TIPO_LANCAMENTO,
-      listaStatus: SITUACAO,
+      listaStatus: STATUS,
       usuario: undefined,
       id: undefined,
       descricao: '',
+      dia: '',
       ano: '',
       mes: '',
       valor: '',
       tipo: '',
-      situacao: '',
+      status: '',
     };
   }
 
@@ -53,8 +54,8 @@ class CadastroLancamentos extends React.Component {
   cadastrar = (event) => {
     let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
     let usuario = usuarioLogado.id;
-    let { id, descricao, ano, valor, tipo, situacao } = this.state;
-    let lancamento = { id, descricao, ano, valor, tipo, situacao, usuario };
+    let { id, descricao, dia, ano, mes, valor, tipo, status } = this.state;
+    let lancamento = { id, descricao, dia, mes, ano, valor, tipo, status, usuario };
 
     const shouldRedirect = true;
     let navetageToRoute = "/consultar-lancamentos";
@@ -83,7 +84,7 @@ class CadastroLancamentos extends React.Component {
 
   validar() {
     const mensagens = [];
-    let { descricao, ano, mes, valor, tipo, situacao } = this.state;
+    let { descricao, ano, mes, valor, tipo, status } = this.state;
 
     if (!descricao) {
       mensagens.push("O campo descrição é obrigatório.");
@@ -93,7 +94,7 @@ class CadastroLancamentos extends React.Component {
       mensagens.push("O campo valor é obrigatório.");
     }
 
-    if (!situacao) {
+    if (!status) {
       mensagens.push("O campo situação é obrigatório.");
     }
 
@@ -155,53 +156,68 @@ class CadastroLancamentos extends React.Component {
                   </Col>
                   <Row>
                     <Col>
-                      <label htmlFor="ano" style={{ paddingTop: "15px" }}>
-                        Ano
-                      </label>
-                      <Form.Control
-                        type="text"
-                        className="form-control"
-                        id="ano"
-                        name="ano"
-                        aria-describedby="text"
-                        placeholder="2023"
-                        value={this.state.ano}
-                        onChange={(event) => this.onChangeInput(event)}
-                      />
-                    </Col>
-                    <Col>
-                        <label htmlFor="mes" style={{ paddingTop: "15px" }}>
-                          Mês:
+                        <label htmlFor="dia" style={{ paddingTop: "15px" }}>
+                          Dia
+                        </label>
+                        <Form.Control
+                          type="text"
+                          className="form-control"
+                          id="dia"
+                          name="dia"
+                          aria-describedby="text"
+                          placeholder="01"
+                          value={this.state.dia}
+                          onChange={(event) => this.onChangeInput(event)}
+                        />
+                      </Col>
+                      <Col>
+                          <label htmlFor="mes" style={{ paddingTop: "15px" }}>
+                            Mês:
+                          </label>
+                          <SelectList
+                            lista={listaMeses}
+                            value={this.state.mes}
+                            onChange={(event) =>
+                            this.setState({ mes: event.target.value })}
+                        />
+                      </Col>
+                      <Col>
+                        <label htmlFor="ano" style={{ paddingTop: "15px" }}>
+                          Ano
+                        </label>
+                        <Form.Control
+                          type="text"
+                          className="form-control"
+                          id="ano"
+                          name="ano"
+                          aria-describedby="text"
+                          placeholder="2023"
+                          value={this.state.ano}
+                          onChange={(event) => this.onChangeInput(event)}
+                        />
+                      </Col>
+                      <Col>
+                        <label htmlFor="tipo" style={{ paddingTop: "15px" }}>
+                          Tipo:
                         </label>
                         <SelectList
-                          lista={listaMeses}
-                          value={this.state.mes}
+                          lista={tiposLancamento}
+                          value={this.state.tipo}
                           onChange={(event) =>
-                          this.setState({ mes: event.target.value })}
-                      />
-                    </Col>
-                    <Col>
-                      <label htmlFor="tipo" style={{ paddingTop: "15px" }}>
-                        Tipo:
-                      </label>
-                      <SelectList
-                        lista={tiposLancamento}
-                        value={this.state.tipo}
-                        onChange={(event) =>
-                        this.setState({ tipo: event.target.value })
-                      }
-                      />
-                    </Col>
-                    <Col>
-                      <label htmlFor="situacao" style={{ paddingTop: "15px" }}>
-                        Situação:
-                      </label>
-                      <SelectList
-                        lista={listaStatus}
-                        value={this.state.situacao}
-                        onChange={(event) =>
-                        this.setState({ situacao: event.target.value })
-                      }
+                          this.setState({ tipo: event.target.value })
+                        }
+                        />
+                      </Col>
+                      <Col>
+                        <label htmlFor="status" style={{ paddingTop: "15px" }}>
+                          Situação:
+                        </label>
+                        <SelectList
+                          lista={listaStatus}
+                          value={this.state.status}
+                          onChange={(event) =>
+                          this.setState({ status: event.target.value })
+                        }
                       />
                     </Col>
                   </Row>
