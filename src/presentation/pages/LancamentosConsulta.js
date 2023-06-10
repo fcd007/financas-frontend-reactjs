@@ -11,7 +11,7 @@ import SelectList from "../components/SelectList";
 import { showToastError, showToastSuccess } from "../components/ToastCustom";
 import { ToastContainer } from "react-toastify";
 import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat";
-import { MESES_ANO, SITUACAO, TIPO_LANCAMENTO } from "./../../data/constants/index";
+import { MESES_ANO, STATUS, TIPO_LANCAMENTO } from "./../../data/constants/index";
 import LancamentoService from "../../infra/service/lancamentoService/LancamentoService";
 import LocalStorageService from "../../infra/service/localStorageService";
 
@@ -25,13 +25,13 @@ class LancamentosConsulta extends React.Component {
       listaLancamentos: [],
       listaMeses: MESES_ANO,
       tiposLancamento: TIPO_LANCAMENTO,
-      listaStatus: SITUACAO,
+      listaStatus: STATUS,
       id: "",
       descricao: "",
       valor: "",
       tipo: "",
       data: "",
-      situacao: "",
+      status: "",
       mes: "",
       ano: "",
       show: false,
@@ -45,17 +45,17 @@ class LancamentosConsulta extends React.Component {
   }
 
   buscarLancamentos = () => {
-    let { descricao, valor, tipo, situacao, mes, ano } = this.state;
+    let { descricao, valor, tipo, status, dia, mes, ano } = this.state;
     let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
     let usuario = usuarioLogado.id;
-    let filtro = { descricao, valor, tipo, mes, ano, situacao, usuario };
+    let filtro = { descricao, valor, tipo,dia, mes, ano, status, usuario };
 
     this.LancamentoService.buscar(filtro)
       .then((response) => {
         this.setState({ listaLancamentos: response.data });
       })
       .catch((error) => {
-        showToastError(error.response.data.message);
+        showToastError(error.response.data);
       });
   };
 
@@ -195,12 +195,12 @@ class LancamentosConsulta extends React.Component {
                     />
                   </Col>
                   <Col>
-                    <label htmlFor="situacao">Situação:</label>
+                    <label htmlFor="status">Situação:</label>
                     <SelectList
                       lista={listaStatus}
-                      value={this.state.situacao}
+                      value={this.state.status}
                       onChange={(event) =>
-                        this.setState({ situacao: event.target.value })
+                        this.setState({ status: event.target.value })
                       }
                     />
                   </Col>
@@ -210,7 +210,7 @@ class LancamentosConsulta extends React.Component {
                         id="buscar"
                         name="buscar"
                         className="btn btn-success"
-                        onClick={(event) => this.buscar(event)}
+                        onClick={(event) => this.buscarLancamentos(event)}
                       >
                         Buscar
                       </button>
