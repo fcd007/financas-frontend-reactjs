@@ -20,6 +20,7 @@ class CadastroUsuario extends React.Component {
       repeat: "",
       shouldRedirect: false,
       navetageToRoute: undefined,
+      atualizar: this.props.atualizar || false
     };
   }
 
@@ -104,7 +105,7 @@ class CadastroUsuario extends React.Component {
           <Navigate replace to={navetageToRoute} />
         ) : (
           <div className="container">
-            <Card title="Cadastrar de Usuário">
+            <Card title={this.state.atualizar ? "Atualizar de Usuário" : "Cadastrar de Usuário"}>
               <Container>
                 <FormGroup htmlFor="nome" label="Nome: *">
                   <input

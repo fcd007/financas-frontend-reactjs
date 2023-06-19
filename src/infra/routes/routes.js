@@ -16,6 +16,7 @@ function Rotas() {
       <Route path="/cadastrar-usuarios" element={<CadastroUsuario />} />
       <Route path="/consultar-lancamentos" element={<LancamentosConsulta />} />
       <Route path="/cadastrar-lancamentos" element={<CadastroLancamentos />} />
+      <Route path="/atualizar-lancamento/:id" element={<CadastroLancamentos />} />
       <Route path="*" element={<Page404 />} />
     </Routes>
   );

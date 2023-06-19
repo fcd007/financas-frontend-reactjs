@@ -62,4 +62,4 @@ class LancamentoService extends ApiService {
   }
 }
 
-export default LancamentoService;
+export default new LancamentoService();
