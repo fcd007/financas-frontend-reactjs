@@ -100,12 +100,15 @@ class LancamentosConsulta extends React.Component {
   deletar = (lancamento) => {
     LancamentoService.deletar(lancamento.id)
       .then((response) => {
+
         const listaLancamentos = this.state.listaLancamentos;
         let index = this.state.listaLancamentos.indexOf(lancamento);
         listaLancamentos.splice(index, 1);
         this.setState(listaLancamentos);
 
         showToastSuccess("Lançamento deletado com sucesso!");
+        
+        this.handleClose();
       })
       .catch((error) => {
         showToastError(error.response.data.message);
