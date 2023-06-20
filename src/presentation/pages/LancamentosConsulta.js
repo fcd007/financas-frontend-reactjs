@@ -14,12 +14,11 @@ import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat";
 import { MESES_ANO, STATUS, TIPO_LANCAMENTO } from "./../../data/constants/index";
 import LancamentoService from "../../infra/service/lancamentoService/LancamentoService";
 import LocalStorageService from "../../infra/service/localStorageService";
+import CadastroLancamentos from "./CadastroLancamentos";
 
 class LancamentosConsulta extends React.Component {
   constructor(props) {
     super(props);
-
-    this.LancamentoService = new LancamentoService();
 
     this.state = {
       listaLancamentos: [],
@@ -36,7 +35,9 @@ class LancamentosConsulta extends React.Component {
       ano: "",
       show: false,
       deleteConfirme: false,
-      selecaoDelete: undefined
+      selecaoDelete: undefined,
+      lancamento: undefined,
+      atualizar: false
     };
   }
 
@@ -50,7 +51,7 @@ class LancamentosConsulta extends React.Component {
     let usuario = usuarioLogado.id;
     let filtro = { descricao, valor, tipo,dia, mes, ano, status, usuario };
 
-    this.LancamentoService.buscar(filtro)
+    LancamentoService.buscar(filtro)
       .then((response) => {
         this.setState({ listaLancamentos: response.data });
       })
@@ -71,14 +72,13 @@ class LancamentosConsulta extends React.Component {
   }
 
   atualizar = (lancamento) => {
-    console.log(lancamento);
-    // this.LancamentoService.atualizar(id, lancamento)
-    //   .then((response) => {
-    //     this.setState({ listaLancamentos: response.data });
-    //   })
-    //   .catch((error) => {
-    //     showToastError(error.response.data.message);
-    //   });
+    const shouldRedirect = true;
+    let atualizar = true;
+    let navetageToRoute = "";
+
+    navetageToRoute = `/atualizar-lancamento/${lancamento.id}`;
+    this.setState({ shouldRedirect, navetageToRoute, lancamento, atualizar });
+
   };
 
   visualizar = (lancamento) => {
@@ -98,8 +98,7 @@ class LancamentosConsulta extends React.Component {
   }
 
   deletar = (lancamento) => {
-
-    this.LancamentoService.deletar(lancamento.id)
+    LancamentoService.deletar(lancamento.id)
       .then((response) => {
         const listaLancamentos = this.state.listaLancamentos;
         let index = this.state.listaLancamentos.indexOf(lancamento);
@@ -114,19 +113,21 @@ class LancamentosConsulta extends React.Component {
   };
 
   render() {
-    let {
-      shouldRedirect,
-      navetageToRoute,
-      listaMeses,
-      tiposLancamento,
-      listaStatus,
-    } = this.state;
+    let { shouldRedirect, navetageToRoute, listaMeses, tiposLancamento, listaStatus } = this.state;
 
     return (
       <>
         <ToastContainer />
-        {shouldRedirect === true ? (
-          <Navigate replace to={navetageToRoute} />
+        {shouldRedirect === true ? 
+        ( //vamos definir uma regra para redirecionar o componente cadastro e atualizar
+          this.state.atualizar ? 
+            (
+              <>
+                <CadastroLancamentos lancamento={this.state.lancamento} />
+              </>
+            )
+            :
+              <Navigate replace to={navetageToRoute}/>
         ) : (
           <div className="container">
             <Card value={"card mb-12"} title={"Lançamentos Consulta"}>
@@ -265,9 +266,7 @@ class LancamentosConsulta extends React.Component {
                             type="button"
                             className="btn btn-warning btn-sm"
                             style={{ marginRight: "15px" }}
-                            onClick={(event) =>
-                              this.atualizar(lancamento)
-                            }
+                            onClick={(event) => this.atualizar(lancamento)}
                           >
                             Editar
                           </button>

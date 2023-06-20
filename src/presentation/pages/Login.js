@@ -12,8 +12,6 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
 
-    this.UsuarioService = new UsuarioService();
-
     this.state = {
       email: "",
       senha: "",
@@ -43,7 +41,7 @@ class Login extends React.Component {
     let id = event.target.id;
 
     if (id === "login") {
-      this.UsuarioService.autenticar({ email, senha })
+      UsuarioService.autenticar({ email, senha })
         .then((response) => {
           if (!!response) {
             LocalStorageService.addItem("_usuario_logado", response.data);

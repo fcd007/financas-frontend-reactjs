@@ -11,8 +11,6 @@ class CadastroUsuario extends React.Component {
   constructor(props) {
     super(props);
 
-    this.UsuarioService = new UsuarioService();
-
     this.state = {
       nome: "",
       email: "",
@@ -72,7 +70,7 @@ class CadastroUsuario extends React.Component {
       return false;
     }
 
-    this.UsuarioService.salvarUsuario(usuario)
+    UsuarioService.salvarUsuario(usuario)
       .then((response) => {
         showToastSuccess("Usuário cadastrado com sucesso!");
         setTimeout(() => {

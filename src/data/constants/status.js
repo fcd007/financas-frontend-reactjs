@@ -1,8 +1,8 @@
 const STATUS = [
-  { id: "PENDENTE", descricao: "Pendente" },
-  { id: "CANCELADO", descricao: "Cancelado" },
-  { id: "FATURADO", descricao: "Faturado" },
-  { id: "EFETIVADO", descricao: "Efetivado" }
+  { id: "PENDENTE", descricao: "PENDENTE" },
+  { id: "CANCELADO", descricao: "CANCELADO" },
+  { id: "FATURADO", descricao: "FATURADO" },
+  { id: "EFETIVADO", descricao: "EFETIVADO" }
 ];
 
 export default STATUS;

@@ -15,22 +15,24 @@ class CadastroLancamentos extends React.Component {
   constructor(props) {
     super(props);
 
-    this.LancamentoService = new LancamentoService();
-
     this.state = {
       listaMeses: MESES_ANO,
       tiposLancamento: TIPO_LANCAMENTO,
       listaStatus: STATUS,
       usuario: undefined,
-      id: undefined,
-      descricao: '',
-      dia: '',
-      ano: '',
-      mes: '',
-      valor: '',
-      tipo: '',
-      status: '',
-    };
+      id: !!this.props.lancamento ? this.props.lancamento.id : undefined,
+      descricao: !!this.props.lancamento ? this.props.lancamento.descricao : '',
+      dia: !!this.props.lancamento ? this.props.lancamento.dia : '',
+      ano: !!this.props.lancamento ? this.props.lancamento.ano : '',
+      mes: !!this.props.lancamento ? this.props.lancamento.mes : '',
+      valor: !!this.props.lancamento ? this.props.lancamento.valor : '',
+      tipo: !!this.props.lancamento ? this.props.lancamento.tipo : '',
+      status: !!this.props.lancamento ? this.props.lancamento.status : '',
+      atualizar: !!this.props.lancamento ? !!this.props.lancamento.id  : false
+    }
+  }
+
+  componentDidMount() {
   }
 
   onChangeInput = (event) => {
@@ -70,7 +72,7 @@ class CadastroLancamentos extends React.Component {
       return false;
     }
 
-    this.LancamentoService.salvar(lancamento)
+    LancamentoService.salvar(lancamento)
       .then((response) => {
         showToastSuccess("Lançamento cadastrado com sucesso!");
         setTimeout(() => {
@@ -79,6 +81,37 @@ class CadastroLancamentos extends React.Component {
       })
       .catch((error) => {
         showToastError(error.response.data);
+      });
+  };
+
+  atualizar = () => {
+    const shouldRedirect = true;
+    let navetageToRoute = "/consultar-lancamentos";
+
+    let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
+    let usuario = usuarioLogado.id;
+    let { id, descricao, dia, ano, mes, valor, tipo, status } = this.state;
+    let lancamento = { id, descricao, dia, mes, ano, valor, tipo, status, usuario };
+
+    const mensagens = this.validar();
+
+    if(mensagens && mensagens.length > 0) {
+      mensagens.forEach((msg, index) => {
+        showToastError(msg);
+      });
+
+      return false;
+    }
+
+    LancamentoService.atualizar(lancamento.id, lancamento)
+      .then((response) => {
+        showToastSuccess("Lançamento cadastrado com sucesso!");
+        setTimeout(() => {
+          this.setState({ shouldRedirect, navetageToRoute });
+        }, 5000);
+      })
+      .catch((error) => {
+        showToastError(error.response.data.message);
       });
   };
 
@@ -223,23 +256,17 @@ class CadastroLancamentos extends React.Component {
                   </Row>
                 </Row>
                 <div style={{ paddingTop: "30px", paddingLeft: "10px" }}>
-                  <button
-                    id="cadastrar"
-                    name="cadastrar"
-                    className="btn btn-success"
-                    onClick={(event) => this.cadastrar(event)}
-                  >
-                    Salvar
-                  </button>
+                  {this.state.atualizar ?
+                    <button id="atualizar" name="atualizar" className="btn btn-success" onClick={(event) => this.atualizar(event)} >Atualizar</button> :
+                    <button id="cadastrar" name="cadastrar" className="btn btn-success" onClick={(event) => this.cadastrar(event)} >Salvar</button>
+                  }
                   <button
                     id="cancelar"
                     name="cancelar"
                     className="btn btn-danger"
                     style={{ marginLeft: "20px" }}
                     onClick={(event) => this.cancelar(event)}
-                  >
-                    Cancelar
-                  </button>
+                  >Cancelar</button>
                 </div>
               </Container>
             </Card>

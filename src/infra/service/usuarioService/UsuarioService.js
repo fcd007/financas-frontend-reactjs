@@ -20,4 +20,4 @@ class UsuarioService extends ApiService {
   }
 }
 
-export default UsuarioService;
+export default new UsuarioService();

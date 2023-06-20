@@ -10,8 +10,6 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    this.UsuarioService = new UsuarioService();
-
     this.state = {
       saldo: 0,
       usuario: {},
@@ -21,7 +19,7 @@ class Home extends React.Component {
   componentDidMount() {
     let usuario = LocalStorageService.obterItem("_usuario_logado");
     if(!!usuario) {
-      this.UsuarioService.obterSaldoPorUsuarioId(usuario.id)
+      UsuarioService.obterSaldoPorUsuarioId(usuario.id)
       .then((response) => {
         this.setState({ saldo: response.data, usuarioId: usuario });
       })
