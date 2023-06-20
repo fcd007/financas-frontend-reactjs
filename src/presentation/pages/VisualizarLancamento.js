@@ -5,13 +5,9 @@ import { Col, Row } from "react-bootstrap";
 import Container from "../components/Container";
 import Form from "react-bootstrap/Form";
 import SelectList from "../components/SelectList";
-import { ToastContainer } from "react-toastify";
-import { MESES_ANO, STATUS, TIPO_LANCAMENTO } from "./../../data/constants/index";
-import LancamentoService from "../../infra/service/lancamentoService/LancamentoService";
-import { showToastError, showToastSuccess } from "../components/ToastCustom";
-import LocalStorageService from "../../infra/service/localStorageService";
+import { MESES_ANO, STATUS, TIPO_LANCAMENTO } from "../../data/constants/index";
 
-class CadastroLancamentos extends React.Component {
+class VisualizarLancamento extends React.Component {
   constructor(props) {
     super(props);
 
@@ -32,112 +28,11 @@ class CadastroLancamentos extends React.Component {
     }
   }
 
-  onChangeInput = (event) => {
-    let valor = event.target.value;
-    let id = event.target.id;
-
-    this.setState({ [id]: valor });
-  };
-
-  cadastrar = (event) => {
-    let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
-    let usuario = usuarioLogado.id;
-    let { id, descricao, dia, ano, mes, valor, tipo, status } = this.state;
-    let lancamento = { id, descricao, dia, mes, ano, valor, tipo, status, usuario };
-
-    const shouldRedirect = true;
-    let navetageToRoute = "/consultar-lancamentos";
-
-    const mensagens = this.validar();
-
-    if(mensagens && mensagens.length > 0) {
-      mensagens.forEach((msg, index) => {
-        showToastError(msg);
-      });
-
-      return false;
-    }
-
-    LancamentoService.salvar(lancamento)
-      .then((response) => {
-        showToastSuccess("Lançamento cadastrado com sucesso!");
-        setTimeout(() => {
-          this.setState({ shouldRedirect, navetageToRoute });
-        }, 5000);
-      })
-      .catch((error) => {
-        showToastError(error.response.data);
-      });
-  };
-
-  atualizar = () => {
-    const shouldRedirect = true;
-    let navetageToRoute = "/consultar-lancamentos";
-
-    let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
-    let usuario = usuarioLogado.id;
-    let { id, descricao, dia, ano, mes, valor, tipo, status } = this.state;
-    let lancamento = { id, descricao, dia, mes, ano, valor, tipo, status, usuario };
-
-    const mensagens = this.validar();
-
-    if(mensagens && mensagens.length > 0) {
-      mensagens.forEach((msg, index) => {
-        showToastError(msg);
-      });
-
-      return false;
-    }
-
-    LancamentoService.atualizar(lancamento.id, lancamento)
-      .then((response) => {
-        showToastSuccess("Lançamento cadastrado com sucesso!");
-        setTimeout(() => {
-          this.setState({ shouldRedirect, navetageToRoute });
-        }, 3000);
-      })
-      .catch((error) => {
-        showToastError(error.response.data.message);
-      });
-  };
-
-  validar() {
-    const mensagens = [];
-    let { descricao, ano, mes, valor, tipo, status } = this.state;
-
-    if (!descricao) {
-      mensagens.push("O campo descrição é obrigatório.");
-    }
-
-    if (!valor) {
-      mensagens.push("O campo valor é obrigatório.");
-    }
-
-    if (!status) {
-      mensagens.push("O campo situação é obrigatório.");
-    }
-
-    if (!tipo) {
-      mensagens.push("O campo tipo é obrigatório.");
-    }
-
-    if (!mes) {
-      mensagens.push("O campo mes é obrigatório.");
-    }
-
-    if (!ano) {
-      mensagens.push("O campo ano é obrigatório.");
-    }
-
-    return mensagens;
-  }
-
   render() {
     let { shouldRedirect, navetageToRoute, listaMeses, tiposLancamento, listaStatus } = this.state;
 
     return (
       <>
-        <ToastContainer />
         {shouldRedirect === true ? (
           <Navigate replace to={navetageToRoute} />
         ) : (
@@ -153,6 +48,7 @@ class CadastroLancamentos extends React.Component {
                   aria-describedby="text"
                   placeholder="Descrição de lançamento"
                   value={this.state.descricao}
+                  disabled={true}
                   onChange={(event) =>
                     this.setState({ descricao: event.target.value })
                   }
@@ -170,6 +66,7 @@ class CadastroLancamentos extends React.Component {
                       aria-describedby="text"
                       placeholder="R$00,00"
                       value={this.state.valor}
+                      disabled={true}
                       onChange={(event) => this.onChangeInput(event)}
                     />
                   </Col>
@@ -186,6 +83,7 @@ class CadastroLancamentos extends React.Component {
                           aria-describedby="text"
                           placeholder="01"
                           value={this.state.dia}
+                          disabled={true}
                           onChange={(event) => this.onChangeInput(event)}
                         />
                       </Col>
@@ -196,6 +94,7 @@ class CadastroLancamentos extends React.Component {
                           <SelectList
                             lista={listaMeses}
                             value={this.state.mes}
+                            disabled={true}
                             onChange={(event) =>
                             this.setState({ mes: event.target.value })}
                         />
@@ -212,6 +111,7 @@ class CadastroLancamentos extends React.Component {
                           aria-describedby="text"
                           placeholder="2023"
                           value={this.state.ano}
+                          disabled={true}
                           onChange={(event) => this.onChangeInput(event)}
                         />
                       </Col>
@@ -222,6 +122,7 @@ class CadastroLancamentos extends React.Component {
                         <SelectList
                           lista={tiposLancamento}
                           value={this.state.tipo}
+                          disabled={true}
                           onChange={(event) =>
                           this.setState({ tipo: event.target.value })
                         }
@@ -234,6 +135,7 @@ class CadastroLancamentos extends React.Component {
                         <SelectList
                           lista={listaStatus}
                           value={this.state.status}
+                          disabled={true}
                           onChange={(event) =>
                           this.setState({ status: event.target.value })
                         }
@@ -242,11 +144,7 @@ class CadastroLancamentos extends React.Component {
                   </Row>
                 </Row>
                 <div style={{ paddingTop: "30px", paddingLeft: "10px" }}>
-                  {this.state.atualizar ?
-                    <button id="atualizar" name="atualizar" className="btn btn-success" onClick={(event) => this.atualizar(event)} >Atualizar</button> :
-                    <button id="cadastrar" name="cadastrar" className="btn btn-success" onClick={(event) => this.cadastrar(event)} >Salvar</button>
-                  }
-                  <button id="cancelar" name="cancelar" className="btn btn-danger" style={{ marginLeft: "20px" }} onClick={(event) => this.props.voltar(event)} >Cancelar</button>
+                  <button id="cancelar" name="cancelar" className="btn btn-danger" onClick={(event) => this.props.voltar(event)} >Voltar</button>
                 </div>
               </Container>
             </Card>
@@ -257,4 +155,4 @@ class CadastroLancamentos extends React.Component {
   }
 }
 
-export default CadastroLancamentos;
+export default VisualizarLancamento;

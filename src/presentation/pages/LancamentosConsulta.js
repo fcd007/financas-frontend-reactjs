@@ -15,6 +15,7 @@ import { MESES_ANO, STATUS, TIPO_LANCAMENTO } from "./../../data/constants/index
 import LancamentoService from "../../infra/service/lancamentoService/LancamentoService";
 import LocalStorageService from "../../infra/service/localStorageService";
 import CadastroLancamentos from "./CadastroLancamentos";
+import VisualizarLancamento from "./VisualizarLancamento";
 
 class LancamentosConsulta extends React.Component {
   constructor(props) {
@@ -37,7 +38,8 @@ class LancamentosConsulta extends React.Component {
       deleteConfirme: false,
       selecaoDelete: undefined,
       lancamento: undefined,
-      atualizar: false
+      atualizar: false,
+      visualizar: false
     };
   }
 
@@ -60,6 +62,11 @@ class LancamentosConsulta extends React.Component {
       });
   };
 
+  voltar = () => {
+    const shouldRedirect = false;
+    this.setState({ shouldRedirect });
+  }
+
   cadastrar = (event) => {
     const shouldRedirect = true;
     let navetageToRoute = "";
@@ -74,15 +81,16 @@ class LancamentosConsulta extends React.Component {
   atualizar = (lancamento) => {
     const shouldRedirect = true;
     let atualizar = true;
-    let navetageToRoute = "";
-
-    navetageToRoute = `/atualizar-lancamento/${lancamento.id}`;
-    this.setState({ shouldRedirect, navetageToRoute, lancamento, atualizar });
+    let visualizar = false;
+    this.setState({ shouldRedirect, lancamento, atualizar, visualizar });
 
   };
 
   visualizar = (lancamento) => {
-    console.log(lancamento);
+    const shouldRedirect = true;
+    let visualizar = true;
+    let atualizar = false;
+    this.setState({ shouldRedirect, lancamento, visualizar, atualizar });
   };
 
   handleClose = () => {
@@ -107,7 +115,7 @@ class LancamentosConsulta extends React.Component {
         this.setState(listaLancamentos);
 
         showToastSuccess("Lançamento deletado com sucesso!");
-        
+
         this.handleClose();
       })
       .catch((error) => {
@@ -123,14 +131,13 @@ class LancamentosConsulta extends React.Component {
         <ToastContainer />
         {shouldRedirect === true ? 
         ( //vamos definir uma regra para redirecionar o componente cadastro e atualizar
-          this.state.atualizar ? 
-            (
-              <>
-                <CadastroLancamentos lancamento={this.state.lancamento} />
-              </>
-            )
-            :
-              <Navigate replace to={navetageToRoute}/>
+          this.state.atualizar === true && this.state.visualizar === false ? 
+            <CadastroLancamentos lancamento={this.state.lancamento} voltar={this.voltar}/> : 
+            //caso de visualizar lancamento
+            this.state.visualizar === true && this.state.atualizar === false ?
+            <VisualizarLancamento lancamento={this.state.lancamento} voltar={this.voltar}/> :
+            //caso de cadastrar novo lancamento
+            <Navigate replace to={navetageToRoute}/>
         ) : (
           <div className="container">
             <Card value={"card mb-12"} title={"Lançamentos Consulta"}>
