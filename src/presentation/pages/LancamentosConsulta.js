@@ -66,6 +66,7 @@ class LancamentosConsulta extends React.Component {
   voltar = () => {
     const shouldRedirect = false;
     this.setState({ shouldRedirect });
+    this.buscarLancamentos();
   }
 
   cadastrar = (event) => {
@@ -88,6 +89,19 @@ class LancamentosConsulta extends React.Component {
     let visualizar = false;
     this.setState({ shouldRedirect, lancamento, atualizar, visualizar });
 
+  };
+  
+  alterarStatus = (lancamento, descricao) => {
+    LancamentoService.atualizarStatus(lancamento.id, descricao)
+      .then((response) => {
+        if(response) {
+          this.buscarLancamentos();
+          showToastSuccess("Lançamento atualizado com sucesso!");
+        }
+      })
+      .catch((error) => {
+        showToastError(error.response.data.message);
+      });
   };
 
   visualizar = (lancamento) => {
@@ -266,32 +280,18 @@ class LancamentosConsulta extends React.Component {
                         <td>{lancamento.dataCriacaoFormatada}</td>
                         <td>{lancamento.status}</td>
                         {/* Criar botoes para acoes -visualizar, editar, excluir*/}
-                        <td style={{ width: "300px" }}>
-                          <button
-                            type="button"
-                            className="btn btn-primary btn-sm"
-                            style={{ marginRight: "15px" }}
-                            onClick={(event) => this.visualizar(lancamento)}
-                          >
-                            Visualizar
-                          </button>
+                        <td style={{ width: "380px" }}>
+                          <button type="button" className="btn btn-primary btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.visualizar(lancamento)}
+                          > Visualizar </button>
 
-                          <button
-                            type="button"
-                            className="btn btn-warning btn-sm"
-                            style={{ marginRight: "15px" }}
-                            onClick={(event) => this.atualizar(lancamento)}
-                          >
-                            Editar
-                          </button>
+                          <button type="button" className="btn btn-info btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.alterarStatus(lancamento, "EFETIVADO")}
+                          > Efetivar </button>
 
-                          <button
-                            type="button"
-                            className="btn btn-danger btn-sm"
-                            onClick={(event) => this.handleShow(lancamento)}
-                          >
-                            Deletar
-                          </button>
+                          <button type="button" className="btn btn-warning btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.atualizar(lancamento)}
+                          > Editar </button>
+
+                          <button type="button" className="btn btn-danger btn-sm" onClick={(event) => this.handleShow(lancamento)}
+                          > Deletar </button>
                         </td>
                       </tr>
                     ))}

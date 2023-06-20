@@ -9,6 +9,7 @@ import { MESES_ANO, STATUS, TIPO_LANCAMENTO } from "../../data/constants/index";
 import LancamentoService from "../../infra/service/lancamentoService/LancamentoService";
 import { showToastError, showToastSuccess } from "../components/ToastCustom";
 import LocalStorageService from "../../infra/service/localStorageService";
+import { Navigate } from "react-router-dom";
 
 class AtualizarLancamento extends React.Component {
   constructor(props) {
@@ -38,15 +39,7 @@ class AtualizarLancamento extends React.Component {
     this.setState({ [id]: valor });
   };
 
-  voltar = () => {
-    const shouldRedirect = true;
-    let navetageToRoute = "/consultar-lancamentos";
-    this.setState({ shouldRedirect, navetageToRoute });
-  }
-
   atualizar = () => {
-    const shouldRedirect = true;
-    let navetageToRoute = "/consultar-lancamentos";
 
     let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
     let usuario = usuarioLogado.id;
@@ -65,10 +58,12 @@ class AtualizarLancamento extends React.Component {
 
     LancamentoService.atualizar(lancamento.id, lancamento)
       .then((response) => {
-        showToastSuccess("Lançamento cadastrado com sucesso!");
-        setTimeout(() => {
-          this.setState({ shouldRedirect, navetageToRoute });
-        }, 3000);
+        if(response) {
+          showToastSuccess("Lançamento atualizado com sucesso!");
+          setTimeout(() => {
+            this.props.voltar();
+          }, 3000);
+        }
       })
       .catch((error) => {
         showToastError(error.response.data.message);
@@ -107,119 +102,123 @@ class AtualizarLancamento extends React.Component {
   }
 
   render() {
-    let { listaMeses, tiposLancamento, listaStatus } = this.state;
+    let { shouldRedirect, navetageToRoute, listaMeses, tiposLancamento, listaStatus } = this.state;
 
     return (
       <>
         <ToastContainer />
-        <div className="container">
-            <Card title="Atualizar Lançamento">
-              <Container>
-                <label htmlFor="descricao">Descrição:</label>
-                <Form.Control
-                  type="text"
-                  className="form-control"
-                  id="descricao"
-                  name="descricao"
-                  aria-describedby="text"
-                  placeholder="Descrição de lançamento"
-                  value={this.state.descricao}
-                  onChange={(event) =>
-                    this.setState({ descricao: event.target.value })
-                  }
-                />
-                <Row>
-                  <Col>
-                    <label htmlFor="valor" style={{ paddingTop: "15px" }}>
-                      Valor R$:
-                    </label>
-                    <Form.Control
-                      type="text"
-                      className="form-control"
-                      id="valor"
-                      name="valor"
-                      aria-describedby="text"
-                      placeholder="R$00,00"
-                      value={this.state.valor}
-                      onChange={(event) => this.onChangeInput(event)}
-                    />
-                  </Col>
+        {shouldRedirect === true ? (
+          <Navigate replace to={navetageToRoute} />
+        ) : (
+          <div className="container">
+              <Card title="Atualizar Lançamento">
+                <Container>
+                  <label htmlFor="descricao">Descrição:</label>
+                  <Form.Control
+                    type="text"
+                    className="form-control"
+                    id="descricao"
+                    name="descricao"
+                    aria-describedby="text"
+                    placeholder="Descrição de lançamento"
+                    value={this.state.descricao}
+                    onChange={(event) =>
+                      this.setState({ descricao: event.target.value })
+                    }
+                  />
                   <Row>
                     <Col>
-                        <label htmlFor="dia" style={{ paddingTop: "15px" }}>
-                          Dia
-                        </label>
-                        <Form.Control
-                          type="text"
-                          className="form-control"
-                          id="dia"
-                          name="dia"
-                          aria-describedby="text"
-                          placeholder="01"
-                          value={this.state.dia}
-                          onChange={(event) => this.onChangeInput(event)}
-                        />
-                      </Col>
-                      <Col>
-                          <label htmlFor="mes" style={{ paddingTop: "15px" }}>
-                            Mês:
-                          </label>
-                          <SelectList
-                            lista={listaMeses}
-                            value={this.state.mes}
-                            onChange={(event) =>
-                            this.setState({ mes: event.target.value })}
-                        />
-                      </Col>
-                      <Col>
-                        <label htmlFor="ano" style={{ paddingTop: "15px" }}>
-                          Ano
-                        </label>
-                        <Form.Control
-                          type="text"
-                          className="form-control"
-                          id="ano"
-                          name="ano"
-                          aria-describedby="text"
-                          placeholder="2023"
-                          value={this.state.ano}
-                          onChange={(event) => this.onChangeInput(event)}
-                        />
-                      </Col>
-                      <Col>
-                        <label htmlFor="tipo" style={{ paddingTop: "15px" }}>
-                          Tipo:
-                        </label>
-                        <SelectList
-                          lista={tiposLancamento}
-                          value={this.state.tipo}
-                          onChange={(event) =>
-                          this.setState({ tipo: event.target.value })
-                        }
-                        />
-                      </Col>
-                      <Col>
-                        <label htmlFor="status" style={{ paddingTop: "15px" }}>
-                          Situação:
-                        </label>
-                        <SelectList
-                          lista={listaStatus}
-                          value={this.state.status}
-                          onChange={(event) =>
-                          this.setState({ status: event.target.value })
-                        }
+                      <label htmlFor="valor" style={{ paddingTop: "15px" }}>
+                        Valor R$:
+                      </label>
+                      <Form.Control
+                        type="text"
+                        className="form-control"
+                        id="valor"
+                        name="valor"
+                        aria-describedby="text"
+                        placeholder="R$00,00"
+                        value={this.state.valor}
+                        onChange={(event) => this.onChangeInput(event)}
                       />
                     </Col>
+                    <Row>
+                      <Col>
+                          <label htmlFor="dia" style={{ paddingTop: "15px" }}>
+                            Dia
+                          </label>
+                          <Form.Control
+                            type="text"
+                            className="form-control"
+                            id="dia"
+                            name="dia"
+                            aria-describedby="text"
+                            placeholder="01"
+                            value={this.state.dia}
+                            onChange={(event) => this.onChangeInput(event)}
+                          />
+                        </Col>
+                        <Col>
+                            <label htmlFor="mes" style={{ paddingTop: "15px" }}>
+                              Mês:
+                            </label>
+                            <SelectList
+                              lista={listaMeses}
+                              value={this.state.mes}
+                              onChange={(event) =>
+                              this.setState({ mes: event.target.value })}
+                          />
+                        </Col>
+                        <Col>
+                          <label htmlFor="ano" style={{ paddingTop: "15px" }}>
+                            Ano
+                          </label>
+                          <Form.Control
+                            type="text"
+                            className="form-control"
+                            id="ano"
+                            name="ano"
+                            aria-describedby="text"
+                            placeholder="2023"
+                            value={this.state.ano}
+                            onChange={(event) => this.onChangeInput(event)}
+                          />
+                        </Col>
+                        <Col>
+                          <label htmlFor="tipo" style={{ paddingTop: "15px" }}>
+                            Tipo:
+                          </label>
+                          <SelectList
+                            lista={tiposLancamento}
+                            value={this.state.tipo}
+                            onChange={(event) =>
+                            this.setState({ tipo: event.target.value })
+                          }
+                          />
+                        </Col>
+                        <Col>
+                          <label htmlFor="status" style={{ paddingTop: "15px" }}>
+                            Situação:
+                          </label>
+                          <SelectList
+                            lista={listaStatus}
+                            value={this.state.status}
+                            onChange={(event) =>
+                            this.setState({ status: event.target.value })
+                          }
+                        />
+                      </Col>
+                    </Row>
                   </Row>
-                </Row>
-                <div style={{ paddingTop: "30px", paddingLeft: "10px" }}>
-                  <button id="atualizar" name="atualizar" className="btn btn-success" onClick={(event) => this.atualizar(event)} >Atualizar</button>
-                  <button id="cancelar" name="cancelar" className="btn btn-danger" style={{ marginLeft: "20px" }} onClick={(event) => this.props.voltar(event)} >Cancelar</button>
-                </div>
-              </Container>
-            </Card>
-          </div>
-      </>
+                  <div style={{ paddingTop: "30px", paddingLeft: "10px" }}>
+                    <button id="atualizar" name="atualizar" className="btn btn-success" onClick={(event) => this.atualizar(event)} >Atualizar</button>
+                    <button id="cancelar" name="cancelar" className="btn btn-danger" style={{ marginLeft: "20px" }} onClick={(event) => this.props.voltar(event)} >Cancelar</button>
+                  </div>
+                </Container>
+              </Card>
+            </div>
+          )}
+        </>
     );
   }
 }
