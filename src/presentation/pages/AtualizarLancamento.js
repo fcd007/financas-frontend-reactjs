@@ -1,17 +1,16 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
 import Card from "../components/Card";
 import { Col, Row } from "react-bootstrap";
 import Container from "../components/Container";
 import Form from "react-bootstrap/Form";
 import SelectList from "../components/SelectList";
 import { ToastContainer } from "react-toastify";
-import { MESES_ANO, STATUS, TIPO_LANCAMENTO } from "./../../data/constants/index";
+import { MESES_ANO, STATUS, TIPO_LANCAMENTO } from "../../data/constants/index";
 import LancamentoService from "../../infra/service/lancamentoService/LancamentoService";
 import { showToastError, showToastSuccess } from "../components/ToastCustom";
 import LocalStorageService from "../../infra/service/localStorageService";
 
-class CadastroLancamentos extends React.Component {
+class AtualizarLancamento extends React.Component {
   constructor(props) {
     super(props);
 
@@ -20,14 +19,15 @@ class CadastroLancamentos extends React.Component {
       tiposLancamento: TIPO_LANCAMENTO,
       listaStatus: STATUS,
       usuario: undefined,
-      id: undefined,
-      descricao: '',
-      dia: '',
-      ano: '',
-      mes: '',
-      valor: '',
-      tipo: '',
-      status: ''
+      id: this.props.lancamento.id,
+      descricao: this.props.lancamento.descricao,
+      dia: this.props.lancamento.dia,
+      ano: this.props.lancamento.ano,
+      mes: this.props.lancamento.mes,
+      valor: this.props.lancamento.valor,
+      tipo: this.props.lancamento.tipo,
+      status: this.props.lancamento.status,
+      atualizar: this.props.lancamento.id
     }
   }
 
@@ -44,14 +44,14 @@ class CadastroLancamentos extends React.Component {
     this.setState({ shouldRedirect, navetageToRoute });
   }
 
-  cadastrar = (event) => {
+  atualizar = () => {
+    const shouldRedirect = true;
+    let navetageToRoute = "/consultar-lancamentos";
+
     let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
     let usuario = usuarioLogado.id;
     let { id, descricao, dia, ano, mes, valor, tipo, status } = this.state;
     let lancamento = { id, descricao, dia, mes, ano, valor, tipo, status, usuario };
-
-    const shouldRedirect = true;
-    let navetageToRoute = "/consultar-lancamentos";
 
     const mensagens = this.validar();
 
@@ -63,15 +63,15 @@ class CadastroLancamentos extends React.Component {
       return false;
     }
 
-    LancamentoService.salvar(lancamento)
+    LancamentoService.atualizar(lancamento.id, lancamento)
       .then((response) => {
         showToastSuccess("Lançamento cadastrado com sucesso!");
         setTimeout(() => {
           this.setState({ shouldRedirect, navetageToRoute });
-        }, 5000);
+        }, 3000);
       })
       .catch((error) => {
-        showToastError(error.response.data);
+        showToastError(error.response.data.message);
       });
   };
 
@@ -107,16 +107,13 @@ class CadastroLancamentos extends React.Component {
   }
 
   render() {
-    let { shouldRedirect, navetageToRoute, listaMeses, tiposLancamento, listaStatus } = this.state;
+    let { listaMeses, tiposLancamento, listaStatus } = this.state;
 
     return (
       <>
         <ToastContainer />
-        {shouldRedirect === true ? (
-          <Navigate replace to={navetageToRoute} />
-        ) : (
-          <div className="container">
-            <Card title="Cadastrar Lançamento">
+        <div className="container">
+            <Card title="Atualizar Lançamento">
               <Container>
                 <label htmlFor="descricao">Descrição:</label>
                 <Form.Control
@@ -216,16 +213,15 @@ class CadastroLancamentos extends React.Component {
                   </Row>
                 </Row>
                 <div style={{ paddingTop: "30px", paddingLeft: "10px" }}>
-                  <button id="cadastrar" name="cadastrar" className="btn btn-success" onClick={(event) => this.cadastrar(event)} >Salvar</button>
-                  <button id="cancelar" name="cancelar" className="btn btn-danger" style={{ marginLeft: "20px" }} onClick={(event) => this.voltar(event)} >Cancelar</button>
+                  <button id="atualizar" name="atualizar" className="btn btn-success" onClick={(event) => this.atualizar(event)} >Atualizar</button>
+                  <button id="cancelar" name="cancelar" className="btn btn-danger" style={{ marginLeft: "20px" }} onClick={(event) => this.props.voltar(event)} >Cancelar</button>
                 </div>
               </Container>
             </Card>
           </div>
-        )}
       </>
     );
   }
 }
 
-export default CadastroLancamentos;
+export default AtualizarLancamento;

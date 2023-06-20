@@ -14,8 +14,8 @@ import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat";
 import { MESES_ANO, STATUS, TIPO_LANCAMENTO } from "./../../data/constants/index";
 import LancamentoService from "../../infra/service/lancamentoService/LancamentoService";
 import LocalStorageService from "../../infra/service/localStorageService";
-import CadastroLancamentos from "./CadastroLancamentos";
 import VisualizarLancamento from "./VisualizarLancamento";
+import AtualizarLancamento from "./AtualizarLancamento";
 
 class LancamentosConsulta extends React.Component {
   constructor(props) {
@@ -39,7 +39,8 @@ class LancamentosConsulta extends React.Component {
       selecaoDelete: undefined,
       lancamento: undefined,
       atualizar: false,
-      visualizar: false
+      visualizar: false,
+      cadastrar: false
     };
   }
 
@@ -69,12 +70,15 @@ class LancamentosConsulta extends React.Component {
 
   cadastrar = (event) => {
     const shouldRedirect = true;
+    let cadastrar = true;
+    let visualizar = false;
+    let atualizar = false;
     let navetageToRoute = "";
     let id = event.target.id;
 
     if (id === "cadastrar") {
       navetageToRoute = "/cadastrar-lancamentos";
-      this.setState({ shouldRedirect, navetageToRoute });
+      this.setState({ shouldRedirect, navetageToRoute, cadastrar, atualizar, visualizar });
     }
   }
 
@@ -131,8 +135,8 @@ class LancamentosConsulta extends React.Component {
         <ToastContainer />
         {shouldRedirect === true ? 
         ( //vamos definir uma regra para redirecionar o componente cadastro e atualizar
-          this.state.atualizar === true && this.state.visualizar === false ? 
-            <CadastroLancamentos lancamento={this.state.lancamento} voltar={this.voltar}/> : 
+          this.state.atualizar === true && this.state.visualizar === false ?
+            <AtualizarLancamento lancamento={this.state.lancamento} voltar={this.voltar}/> : 
             //caso de visualizar lancamento
             this.state.visualizar === true && this.state.atualizar === false ?
             <VisualizarLancamento lancamento={this.state.lancamento} voltar={this.voltar}/> :
