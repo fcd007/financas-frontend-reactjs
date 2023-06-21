@@ -280,17 +280,17 @@ class LancamentosConsulta extends React.Component {
                         <td>{lancamento.dataCriacaoFormatada}</td>
                         <td>{lancamento.status}</td>
                         {/* Criar botoes para acoes -visualizar, editar, excluir*/}
-                        <td style={{ width: "380px" }}>
-                          <button type="button" className="btn btn-primary btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.visualizar(lancamento)}
-                          > Visualizar </button>
+                        <td style={{ width: "200px" }}>
+                          <button title="Visualizar" type="button" className="btn btn-primary btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.visualizar(lancamento)}
+                          ><i className="bi bi-eye-fill"></i></button>
 
-                          <button type="button" className="btn btn-info btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.alterarStatus(lancamento, "EFETIVADO")}
-                          > Efetivar </button>
+                          <button type="button" title="Efetivar" className="btn btn-info btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.alterarStatus(lancamento, "EFETIVADO")}
+                          ><i className="bi bi-check2-square"></i> </button>
 
-                          <button type="button" className="btn btn-warning btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.atualizar(lancamento)}
-                          >Editar</button>
-                          <button type="button" className="btn btn-danger btn-sm" onClick={(event) => this.handleShow(lancamento)}
-                          > Deletar </button>
+                          <button type="button" title="Editar" className="btn btn-warning btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.atualizar(lancamento)}
+                          ><i className="bi bi-pencil-square"></i></button>
+                          <button type="button" title="Deletar" className="btn btn-danger btn-sm" onClick={(event) => this.handleShow(lancamento)}
+                          ><i class="bi bi-trash"></i></button>
                         </td>
                       </tr>
                     ))}
