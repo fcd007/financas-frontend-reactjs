@@ -211,8 +211,10 @@ class AtualizarLancamento extends React.Component {
                     </Row>
                   </Row>
                   <div style={{ paddingTop: "30px", paddingLeft: "10px" }}>
-                    <button id="atualizar" name="atualizar" className="btn btn-success" onClick={(event) => this.atualizar(event)} >Atualizar</button>
-                    <button id="cancelar" name="cancelar" className="btn btn-danger" style={{ marginLeft: "20px" }} onClick={(event) => this.props.voltar(event)} >Cancelar</button>
+                    <button id="atualizar" name="atualizar" className="btn btn-success" onClick={(event) => this.atualizar(event)} >
+                    <i className="bi bi-arrow-clockwise"></i> Atualizar</button>
+                    <button id="cancelar" name="cancelar" className="btn btn-danger" style={{ marginLeft: "20px" }} onClick={(event) => this.props.voltar(event)} >
+                    <i className="bi bi-x-square"></i> Cancelar</button>
                   </div>
                 </Container>
               </Card>

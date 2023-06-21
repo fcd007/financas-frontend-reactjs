@@ -161,18 +161,14 @@ class CadastroUsuario extends React.Component {
                     name="cadastrar"
                     className="btn btn-success"
                     onClick={(event) => this.cadastrar(event)}
-                  >
-                    Salvar
-                  </button>
+                  ><i className="bi bi-save"></i> Salvar </button>
                   <button
                     id="cancelar"
                     name="cancelar"
                     className="btn btn-danger"
                     style={{ marginLeft: "20px" }}
                     onClick={(event) => this.cancelar(event)}
-                  >
-                    Cancelar
-                  </button>
+                  ><i className="bi bi-x-square"></i> Cancelar </button>
                 </div>
               </Container>
             </Card>

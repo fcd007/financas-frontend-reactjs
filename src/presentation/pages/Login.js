@@ -112,18 +112,14 @@ class Login extends React.Component {
                           name="login"
                           className="btn btn-success"
                           onClick={(event) => this.prepararEntrar(event)}
-                        >
-                          Entrar
-                        </button>
+                        ><i className="bi bi-door-open"></i> Entrar</button>
                         <button
                           id="cadastrar"
                           name="cadastrar"
                           className="btn btn-danger"
                           style={{ marginLeft: "20px" }}
                           onClick={(event) => this.prepararCadastrar(event)}
-                        >
-                          Cadastrar
-                        </button>
+                        ><i className="bi bi-person-plus"></i> Cadastrar</button>
                       </div>
                     </Container>
                   </Card>

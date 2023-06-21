@@ -165,8 +165,8 @@ class LancamentosConsulta extends React.Component {
                 </Modal.Header>
                 <Modal.Body>Tem certeza que deseja deletar registro?</Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={this.handleClose}>Cancelar</Button>
-                  <Button variant="danger" onClick={this.confirmeDeletar}>Deletar</Button>
+                  <Button variant="secondary" onClick={this.handleClose}><i className="bi bi-x-square"></i>Cancelar</Button>
+                  <Button variant="danger" onClick={this.confirmeDeletar}><i className="bi bi-trash"></i>Deletar</Button>
                 </Modal.Footer>
               </Modal>
               <FormGroup htmlFor="ano">
@@ -288,7 +288,7 @@ class LancamentosConsulta extends React.Component {
                           <button type="button" title="Editar" className="btn btn-warning btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.atualizar(lancamento)}
                           ><i className="bi bi-pencil-square"></i></button>
                           <button type="button" title="Deletar" className="btn btn-danger btn-sm" onClick={(event) => this.handleShow(lancamento)}
-                          ><i class="bi bi-trash"></i></button>
+                          ><i className="bi bi-trash"></i></button>
                         </td>
                       </tr>
                     ))}

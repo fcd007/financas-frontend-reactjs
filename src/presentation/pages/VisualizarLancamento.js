@@ -144,7 +144,7 @@ class VisualizarLancamento extends React.Component {
                   </Row>
                 </Row>
                 <div style={{ paddingTop: "30px", paddingLeft: "10px" }}>
-                  <button id="cancelar" name="cancelar" className="btn btn-danger" onClick={(event) => this.props.voltar(event)} >Voltar</button>
+                  <button id="cancelar" name="cancelar" className="btn btn-danger" onClick={(event) => this.props.voltar(event)} ><i className="bi bi-arrow-left-square"></i> Voltar</button>
                 </div>
               </Container>
             </Card>

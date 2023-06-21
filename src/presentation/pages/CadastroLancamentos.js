@@ -216,8 +216,10 @@ class CadastroLancamentos extends React.Component {
                   </Row>
                 </Row>
                 <div style={{ paddingTop: "30px", paddingLeft: "10px" }}>
-                  <button id="cadastrar" name="cadastrar" className="btn btn-success" onClick={(event) => this.cadastrar(event)} >Salvar</button>
-                  <button id="cancelar" name="cancelar" className="btn btn-danger" style={{ marginLeft: "20px" }} onClick={(event) => this.voltar(event)} >Cancelar</button>
+                  <button id="cadastrar" name="cadastrar" className="btn btn-success" onClick={(event) => this.cadastrar(event)} >
+                  <i className="bi bi-save"></i> Salvar</button>
+                  <button id="cancelar" name="cancelar" className="btn btn-danger" style={{ marginLeft: "20px" }} onClick={(event) => this.voltar(event)} >
+                    <i className="bi bi-x-square"></i> Cancelar</button>
                 </div>
               </Container>
             </Card>

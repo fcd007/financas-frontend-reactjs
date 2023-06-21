@@ -5,7 +5,6 @@ import LocalStorageService from "../../infra/service/localStorageService";
 import { ToastContainer} from 'react-toastify';
 import { showToastError } from "../components/ToastCustom";
 import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Home extends React.Component {
   constructor(props) {
@@ -73,21 +72,20 @@ class Home extends React.Component {
             </p>
             <p className="lead">
               <button
+                title="Cadastrar Usuário"
                 id="usuarios"
                 name="usuarios"
                 className="btn btn-primary btn-lg fa fa-users"
                 onClick={(event) => this.prepararCadastrar(event)}
-              >
-                Cadastrar Usuário
-              </button>
+              ><i className="bi bi-person-plus"></i> Usuário</button>
               <button
+                style={{marginLeft: "30px"}}
+                title="Cadastrar Lançamento"
                 id="lancamento"
                 name="lancamento"
                 className="btn btn-danger btn-lg fa fa-users"
                 onClick={(event) => this.prepararLancamento(event)}
-              >
-                Cadastrar Lançamento
-              </button>
+              ><i className="bi bi-file-earmark-plus"></i> Lançamento</button>
             </p>
           </div>
         )}
