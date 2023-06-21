@@ -236,21 +236,19 @@ class LancamentosConsulta extends React.Component {
                   <Col style={{ marginTop: "20px" }}>
                     <Stack direction="horizontal" gap={2}>
                       <button
+                      title="Pesquisar"
                         id="buscar"
                         name="buscar"
                         className="btn btn-success"
                         onClick={(event) => this.buscarLancamentos(event)}
-                      >
-                        Buscar
-                      </button>
+                      ><i className="bi bi-search"></i></button>
                       <button
+                        title="Lançamento"
                         id="cadastrar"
                         name="cadastrar"
                         className="btn btn-danger"
                         onClick={(event) => this.cadastrar(event)}
-                      >
-                        Cadastrar
-                      </button>
+                      ><i className="bi bi-plus-square"></i></button>
                     </Stack>
                   </Col>
                 </Row>
