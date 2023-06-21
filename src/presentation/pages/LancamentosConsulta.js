@@ -5,13 +5,17 @@ import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import SelectList from "../components/SelectList";
 import { showToastError, showToastSuccess } from "../components/ToastCustom";
 import { ToastContainer } from "react-toastify";
 import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat";
-import { MESES_ANO, STATUS, TIPO_LANCAMENTO } from "./../../data/constants/index";
+import {
+  MESES_ANO,
+  STATUS,
+  TIPO_LANCAMENTO,
+} from "./../../data/constants/index";
 import LancamentoService from "../../infra/service/lancamentoService/LancamentoService";
 import LocalStorageService from "../../infra/service/localStorageService";
 import VisualizarLancamento from "./VisualizarLancamento";
@@ -40,7 +44,7 @@ class LancamentosConsulta extends React.Component {
       lancamento: undefined,
       atualizar: false,
       visualizar: false,
-      cadastrar: false
+      cadastrar: false,
     };
   }
 
@@ -52,7 +56,7 @@ class LancamentosConsulta extends React.Component {
     let { descricao, valor, tipo, status, dia, mes, ano } = this.state;
     let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
     let usuario = usuarioLogado.id;
-    let filtro = { descricao, valor, tipo,dia, mes, ano, status, usuario };
+    let filtro = { descricao, valor, tipo, dia, mes, ano, status, usuario };
 
     LancamentoService.buscar(filtro)
       .then((response) => {
@@ -67,7 +71,7 @@ class LancamentosConsulta extends React.Component {
     const shouldRedirect = false;
     this.setState({ shouldRedirect });
     this.buscarLancamentos();
-  }
+  };
 
   cadastrar = (event) => {
     const shouldRedirect = true;
@@ -79,22 +83,27 @@ class LancamentosConsulta extends React.Component {
 
     if (id === "cadastrar") {
       navetageToRoute = "/cadastrar-lancamentos";
-      this.setState({ shouldRedirect, navetageToRoute, cadastrar, atualizar, visualizar });
+      this.setState({
+        shouldRedirect,
+        navetageToRoute,
+        cadastrar,
+        atualizar,
+        visualizar,
+      });
     }
-  }
+  };
 
   atualizar = (lancamento) => {
     const shouldRedirect = true;
     let atualizar = true;
     let visualizar = false;
     this.setState({ shouldRedirect, lancamento, atualizar, visualizar });
-
   };
-  
+
   alterarStatus = (lancamento, descricao) => {
     LancamentoService.atualizarStatus(lancamento.id, descricao)
       .then((response) => {
-        if(response) {
+        if (response) {
           this.buscarLancamentos();
           showToastSuccess("Lançamento atualizado com sucesso!");
         }
@@ -113,20 +122,19 @@ class LancamentosConsulta extends React.Component {
 
   handleClose = () => {
     this.setState({ show: false, deleteConfirme: false });
-  }
+  };
 
   handleShow = (lancamento) => {
-    this.setState({ show: true, selecaoDelete: lancamento});
-  }
-  
+    this.setState({ show: true, selecaoDelete: lancamento });
+  };
+
   confirmeDeletar = () => {
     this.deletar(this.state.selecaoDelete);
-  }
+  };
 
   deletar = (lancamento) => {
     LancamentoService.deletar(lancamento.id)
       .then((response) => {
-
         const listaLancamentos = this.state.listaLancamentos;
         let index = this.state.listaLancamentos.indexOf(lancamento);
         listaLancamentos.splice(index, 1);
@@ -142,20 +150,34 @@ class LancamentosConsulta extends React.Component {
   };
 
   render() {
-    let { shouldRedirect, navetageToRoute, listaMeses, tiposLancamento, listaStatus } = this.state;
+    let {
+      shouldRedirect,
+      navetageToRoute,
+      listaMeses,
+      tiposLancamento,
+      listaStatus,
+    } = this.state;
 
     return (
       <>
         <ToastContainer />
-        {shouldRedirect === true ? 
-        ( //vamos definir uma regra para redirecionar o componente cadastro e atualizar
-          this.state.atualizar === true && this.state.visualizar === false ?
-            <AtualizarLancamento lancamento={this.state.lancamento} voltar={this.voltar}/> : 
-            //caso de visualizar lancamento
-            this.state.visualizar === true && this.state.atualizar === false ?
-            <VisualizarLancamento lancamento={this.state.lancamento} voltar={this.voltar}/> :
+        {shouldRedirect === true ? (
+          //vamos definir uma regra para redirecionar o componente cadastro e atualizar
+          this.state.atualizar === true && this.state.visualizar === false ? (
+            <AtualizarLancamento
+              lancamento={this.state.lancamento}
+              voltar={this.voltar}
+            />
+          ) : //caso de visualizar lancamento
+          this.state.visualizar === true && this.state.atualizar === false ? (
+            <VisualizarLancamento
+              lancamento={this.state.lancamento}
+              voltar={this.voltar}
+            />
+          ) : (
             //caso de cadastrar novo lancamento
-            <Navigate replace to={navetageToRoute}/>
+            <Navigate replace to={navetageToRoute} />
+          )
         ) : (
           <div className="container">
             <Card value={"card mb-12"} title={"Lançamentos Consulta"}>
@@ -163,10 +185,16 @@ class LancamentosConsulta extends React.Component {
                 <Modal.Header closeButton>
                   <Modal.Title>Apagar Lançamento</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Tem certeza que deseja deletar registro?</Modal.Body>
+                <Modal.Body>
+                  Tem certeza que deseja deletar registro?
+                </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={this.handleClose}><i className="bi bi-x-square"></i>Cancelar</Button>
-                  <Button variant="danger" onClick={this.confirmeDeletar}><i className="bi bi-trash"></i>Deletar</Button>
+                  <Button variant="secondary" onClick={this.handleClose}>
+                    <i className="bi bi-x-square"></i>Cancelar
+                  </Button>
+                  <Button variant="danger" onClick={this.confirmeDeletar}>
+                    <i className="bi bi-trash"></i>Deletar
+                  </Button>
                 </Modal.Footer>
               </Modal>
               <FormGroup htmlFor="ano">
@@ -236,19 +264,23 @@ class LancamentosConsulta extends React.Component {
                   <Col style={{ marginTop: "20px" }}>
                     <Stack direction="horizontal" gap={2}>
                       <button
-                      title="Pesquisar"
+                        title="Pesquisar"
                         id="buscar"
                         name="buscar"
                         className="btn btn-success"
                         onClick={(event) => this.buscarLancamentos(event)}
-                      ><i className="bi bi-search"></i></button>
+                      >
+                        <i className="bi bi-search"></i>
+                      </button>
                       <button
                         title="Lançamento"
                         id="cadastrar"
                         name="cadastrar"
                         className="btn btn-danger"
                         onClick={(event) => this.cadastrar(event)}
-                      ><i className="bi bi-plus-square"></i></button>
+                      >
+                        <i className="bi bi-plus-square"></i>
+                      </button>
                     </Stack>
                   </Col>
                 </Row>
@@ -279,16 +311,46 @@ class LancamentosConsulta extends React.Component {
                         <td>{lancamento.status}</td>
                         {/* Criar botoes para acoes -visualizar, editar, excluir*/}
                         <td style={{ width: "200px" }}>
-                          <button title="Visualizar" type="button" className="btn btn-primary btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.visualizar(lancamento)}
-                          ><i className="bi bi-eye-fill"></i></button>
+                          <button
+                            title="Visualizar"
+                            type="button"
+                            className="btn btn-primary btn-sm"
+                            style={{ marginRight: "15px" }}
+                            onClick={(event) => this.visualizar(lancamento)}
+                          >
+                            <i className="bi bi-eye-fill"></i>
+                          </button>
 
-                          <button type="button" title="Efetivar" className="btn btn-info btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.alterarStatus(lancamento, "EFETIVADO")}
-                          ><i className="bi bi-check2-square"></i> </button>
+                          <button
+                            type="button"
+                            title="Efetivar"
+                            className="btn btn-info btn-sm"
+                            style={{ marginRight: "15px" }}
+                            disabled={lancamento.status === "EFETIVADO"}
+                            onClick={(event) =>
+                              this.alterarStatus(lancamento, "EFETIVADO")
+                            }
+                          >
+                            <i className="bi bi-check2-square"></i>{" "}
+                          </button>
 
-                          <button type="button" title="Editar" className="btn btn-warning btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.atualizar(lancamento)}
-                          ><i className="bi bi-pencil-square"></i></button>
-                          <button type="button" title="Deletar" className="btn btn-danger btn-sm" onClick={(event) => this.handleShow(lancamento)}
-                          ><i className="bi bi-trash"></i></button>
+                          <button
+                            type="button"
+                            title="Editar"
+                            className="btn btn-warning btn-sm"
+                            style={{ marginRight: "15px" }}
+                            onClick={(event) => this.atualizar(lancamento)}
+                          >
+                            <i className="bi bi-pencil-square"></i>
+                          </button>
+                          <button
+                            type="button"
+                            title="Deletar"
+                            className="btn btn-danger btn-sm"
+                            onClick={(event) => this.handleShow(lancamento)}
+                          >
+                            <i className="bi bi-trash"></i>
+                          </button>
                         </td>
                       </tr>
                     ))}
