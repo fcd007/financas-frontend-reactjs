@@ -5,6 +5,7 @@ import LocalStorageService from "../../infra/service/localStorageService";
 import { ToastContainer} from 'react-toastify';
 import { showToastError } from "../components/ToastCustom";
 import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Home extends React.Component {
   constructor(props) {

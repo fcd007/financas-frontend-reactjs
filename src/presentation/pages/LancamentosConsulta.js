@@ -288,8 +288,7 @@ class LancamentosConsulta extends React.Component {
                           > Efetivar </button>
 
                           <button type="button" className="btn btn-warning btn-sm" style={{ marginRight: "15px" }} onClick={(event) => this.atualizar(lancamento)}
-                          > Editar </button>
-
+                          >Editar</button>
                           <button type="button" className="btn btn-danger btn-sm" onClick={(event) => this.handleShow(lancamento)}
                           > Deletar </button>
                         </td>
