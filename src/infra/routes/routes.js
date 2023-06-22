@@ -10,10 +10,10 @@ import CadastroLancamentos from "../../presentation/pages/CadastroLancamentos";
 function Rotas() {
   return (
     <Routes>
-      <Route index path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/home" element={<Home />} />
       <Route path="/cadastrar-usuarios" element={<CadastroUsuario />} />
+      <Route index path="/" element={<Home />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/consultar-lancamentos" element={<LancamentosConsulta />} />
       <Route path="/cadastrar-lancamentos" element={<CadastroLancamentos />} />
       <Route path="/atualizar-lancamento/:id" element={<CadastroLancamentos />} />
