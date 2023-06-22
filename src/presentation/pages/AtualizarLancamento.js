@@ -32,6 +32,16 @@ class AtualizarLancamento extends React.Component {
     }
   }
 
+  componentDidMount() {
+    let usuario = LocalStorageService.obterItem("_usuario_logado");
+    if(!usuario) {
+      const shouldRedirect = true;
+      let navetageToRoute = "";
+        navetageToRoute = "/login";
+        this.setState({ shouldRedirect, navetageToRoute });
+    }
+  }
+
   onChangeInput = (event) => {
     let valor = event.target.value;
     let id = event.target.id;

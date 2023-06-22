@@ -6,6 +6,7 @@ import Container from "../components/Container";
 import Form from "react-bootstrap/Form";
 import SelectList from "../components/SelectList";
 import { MESES_ANO, STATUS, TIPO_LANCAMENTO } from "../../data/constants/index";
+import LocalStorageService from "../../infra/service/localStorageService";
 
 class VisualizarLancamento extends React.Component {
   constructor(props) {
@@ -25,6 +26,17 @@ class VisualizarLancamento extends React.Component {
       tipo: !!this.props.lancamento ? this.props.lancamento.tipo : '',
       status: !!this.props.lancamento ? this.props.lancamento.status : '',
       atualizar: !!this.props.lancamento ? !!this.props.lancamento.id  : false
+    }
+  }
+
+  componentDidMount() {
+    let usuario = LocalStorageService.obterItem("_usuario_logado");
+    
+    if(!usuario) {
+      const shouldRedirect = true;
+      let navetageToRoute = "";
+      navetageToRoute = "/login";
+      this.setState({ shouldRedirect, navetageToRoute });
     }
   }
 

@@ -49,7 +49,16 @@ class LancamentosConsulta extends React.Component {
   }
 
   componentDidMount() {
-    this.buscarLancamentos();
+    let usuario = LocalStorageService.obterItem("_usuario_logado");
+    
+    if(!!usuario) {
+      this.buscarLancamentos();
+    }else{
+      const shouldRedirect = true;
+      let navetageToRoute = "";
+      navetageToRoute = "/login";
+      this.setState({ shouldRedirect, navetageToRoute });
+    }
   }
 
   buscarLancamentos = () => {

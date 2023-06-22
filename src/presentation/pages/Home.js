@@ -26,6 +26,11 @@ class Home extends React.Component {
       .catch((error) => {
         showToastError(error.response.data);
       });
+    }else {
+      const shouldRedirect = true;
+      let navetageToRoute = "";
+        navetageToRoute = "/login";
+        this.setState({ shouldRedirect, navetageToRoute });
     }
   }
 
