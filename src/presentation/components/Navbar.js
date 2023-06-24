@@ -1,11 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LocalStorageService from "../../infra/service/localStorageService";
+import AutService from "../../infra/service/AuthService";
 
 const isAuthenticated = () => {
   let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
   return !!usuarioLogado ? true : false;
 };
+
+const deslogar = () => {
+  AutService.removerUsuarioAutenticado();
+}
 
 function Navbar() {
   return (
@@ -28,6 +33,7 @@ function Navbar() {
               {!isAuthenticated() && <Link className="nav-link" to="/cadastrar-usuarios">Usuários</Link>}
               {isAuthenticated() && <Link className="nav-link" to="/consultar-lancamentos">Lançamentos</Link>}
               {!isAuthenticated() && <Link className="nav-link" to="/login">Login</Link>}
+              {isAuthenticated() && <a onClick={deslogar} className="nav-link" href="/login">Sair</a>}
             </ul>
           </div>
         </div>

@@ -19,6 +19,7 @@ class Login extends React.Component {
       navetageToRoute: undefined,
       mensagemErro: null,
       showMensagem: null,
+      usuarioLogado: false
     };
   }
 
@@ -35,25 +36,17 @@ class Login extends React.Component {
 
   prepararEntrar = (event) => {
     let { email, senha } = this.state;
-
-    const shouldRedirect = true;
-    let navetageToRoute = "";
-    let id = event.target.id;
-
-    if (id === "login") {
       UsuarioService.autenticar({ email, senha })
         .then((response) => {
           if (!!response) {
+            let usuarioLogado = true;
             LocalStorageService.addItem("_usuario_logado", response.data);
-
-            navetageToRoute = "/home";
-            this.setState({ shouldRedirect, navetageToRoute });
+            this.setState({ usuarioLogado });
           }
         })
         .catch((error) => {
           showToastError(error.response.data);
         });
-    }
   };
 
   onChangeInput = (event) => {
@@ -64,13 +57,10 @@ class Login extends React.Component {
   };
 
   render() {
-    let { shouldRedirect, navetageToRoute } = this.state;
+    
     return (
       <>
         <ToastContainer />
-        {shouldRedirect === true ? (
-          <Navigate replace to={navetageToRoute} />
-        ) : (
           <div className="container">
             <div className="row">
               <div
@@ -107,18 +97,9 @@ class Login extends React.Component {
                         />
                       </FormGroup>
                       <div style={{ padding: "10px" }}>
-                        <button
-                          id="login"
-                          name="login"
-                          className="btn btn-success"
-                          onClick={(event) => this.prepararEntrar(event)}
-                        ><i className="bi bi-door-open"></i> Entrar</button>
-                        <button
-                          id="cadastrar"
-                          name="cadastrar"
-                          className="btn btn-danger"
-                          style={{ marginLeft: "20px" }}
-                          onClick={(event) => this.prepararCadastrar(event)}
+                        <button id="login" name="login" className="btn btn-success" onClick={(event) => this.prepararEntrar(event)}>
+                          <i className="bi bi-door-open"></i> Entrar</button>
+                        <button id="cadastrar" name="cadastrar" className="btn btn-danger" style={{ marginLeft: "20px" }} onClick={(event) => this.prepararCadastrar(event)}
                         ><i className="bi bi-person-plus"></i> Cadastrar</button>
                       </div>
                     </Container>
@@ -127,7 +108,6 @@ class Login extends React.Component {
               </div>
             </div>
           </div>
-        )}
       </>
     );
   }
