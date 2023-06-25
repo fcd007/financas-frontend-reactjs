@@ -1,10 +1,10 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import UsuarioService from "../../infra/service/usuarioService/UsuarioService";
-import LocalStorageService from "../../infra/service/localStorageService";
 import { ToastContainer} from 'react-toastify';
 import { showToastError } from "../components/ToastCustom";
 import { formatarEmRealBrasileiro } from "../../data/utils/NumberFormat"
+import { AuthContext } from "../contexts/ContextAutenticacao";
 
 class Home extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    let usuario = LocalStorageService.obterItem("_usuario_logado");
+    const usuario = this.context.usuarioAutenticado;
     if(!!usuario) {
       UsuarioService.obterSaldoPorUsuarioId(usuario.id)
       .then((response) => {
@@ -98,5 +98,7 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.contextType = AuthContext;
 
 export default Home;

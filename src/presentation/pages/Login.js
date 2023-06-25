@@ -1,12 +1,12 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
 import Card from "../components/Card";
 import FormGroup from "../components/FormGroup";
 import Container from "../components/Container";
 import UsuarioService from "../../infra/service/usuarioService/UsuarioService";
-import LocalStorageService from "../../infra/service/localStorageService";
 import { ToastContainer} from 'react-toastify';
 import { showToastError } from "../components/ToastCustom";
+import { AuthContext } from "../contexts/ContextAutenticacao";
+import { Navigate } from "react-router-dom";
 
 class Login extends React.Component {
   constructor(props) {
@@ -34,14 +34,18 @@ class Login extends React.Component {
     }
   };
 
-  prepararEntrar = (event) => {
+  entrar = (event) => {
     let { email, senha } = this.state;
+    let navetageToRoute = "";
+
       UsuarioService.autenticar({ email, senha })
         .then((response) => {
           if (!!response) {
             let usuarioLogado = true;
-            LocalStorageService.addItem("_usuario_logado", response.data);
-            this.setState({ usuarioLogado });
+            let shouldRedirect = true;
+            this.context.iniciarSessao(response.data);
+            navetageToRoute = "/home";
+            this.setState({ usuarioLogado, shouldRedirect, navetageToRoute });
           }
         })
         .catch((error) => {
@@ -61,6 +65,9 @@ class Login extends React.Component {
     return (
       <>
         <ToastContainer />
+        {this.state.shouldRedirect === true ? (
+          <Navigate replace to={this.state.navetageToRoute} />
+        ) : 
           <div className="container">
             <div className="row">
               <div
@@ -97,7 +104,7 @@ class Login extends React.Component {
                         />
                       </FormGroup>
                       <div style={{ padding: "10px" }}>
-                        <button id="login" name="login" className="btn btn-success" onClick={(event) => this.prepararEntrar(event)}>
+                        <button id="login" name="login" className="btn btn-success" onClick={(event) => this.entrar(event)}>
                           <i className="bi bi-door-open"></i> Entrar</button>
                         <button id="cadastrar" name="cadastrar" className="btn btn-danger" style={{ marginLeft: "20px" }} onClick={(event) => this.prepararCadastrar(event)}
                         ><i className="bi bi-person-plus"></i> Cadastrar</button>
@@ -108,9 +115,12 @@ class Login extends React.Component {
               </div>
             </div>
           </div>
+        }
       </>
     );
   }
 }
+
+Login.contextType = AuthContext;
 
 export default Login;

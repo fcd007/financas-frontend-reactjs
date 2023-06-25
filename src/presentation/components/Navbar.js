@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LocalStorageService from "../../infra/service/localStorageService";
-import AutService from "../../infra/service/AuthService";
+import AuthService from "../../infra/service/AuthService";
 
 const isAuthenticated = () => {
   let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
@@ -9,7 +9,7 @@ const isAuthenticated = () => {
 };
 
 const deslogar = () => {
-  AutService.removerUsuarioAutenticado();
+  AuthService.removerUsuarioAutenticado();
 }
 
 function Navbar() {
