@@ -1,18 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LocalStorageService from "../../infra/service/localStorageService";
-import AuthService from "../../infra/service/AuthService";
+import { AuthConsumer } from "../contexts/ContextAutenticacao";
 
-const isAuthenticated = () => {
-  let usuarioLogado = LocalStorageService.obterItem("_usuario_logado");
-  return !!usuarioLogado ? true : false;
-};
-
-const deslogar = () => {
-  AuthService.removerUsuarioAutenticado();
-}
-
-function Navbar() {
+function Navbar(props) {
   return (
     <div className="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
         <div className="container">
@@ -29,11 +19,13 @@ function Navbar() {
           </button>
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav">
-              {isAuthenticated() && <Link className="nav-link" to="/">Home</Link>}
-              {!isAuthenticated() && <Link className="nav-link" to="/cadastrar-usuarios">Usuários</Link>}
-              {isAuthenticated() && <Link className="nav-link" to="/consultar-lancamentos">Lançamentos</Link>}
-              {!isAuthenticated() && <Link className="nav-link" to="/login">Login</Link>}
-              {isAuthenticated() && <a onClick={deslogar} className="nav-link" href="/login">Sair</a>}
+              {/* rotas abertas sem autenticacao */}
+              {!props.isUsuarioAutenticado  && <Link className="nav-link" to="/login">Login</Link>}
+              {!props.isUsuarioAutenticado  && <Link className="nav-link" to="/cadastrar-usuarios">Usuário</Link>}
+              {/* rotas fechadas apenas com autenticacao */}
+              {props.isUsuarioAutenticado && <Link className="nav-link" to="/">Home</Link>}
+              {props.isUsuarioAutenticado  && <Link className="nav-link" to="/consultar-lancamentos">Lançamentos</Link>}
+              {props.isUsuarioAutenticado  && <a onClick={props.encerrarSessao} className="nav-link" href="/login">Sair</a>}
             </ul>
           </div>
         </div>
@@ -41,4 +33,9 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+// eslint-disable-next-line import/no-anonymous-default-export
+export default () => (
+  <AuthConsumer>
+    {(context) => <Navbar isUsuarioAutenticado={context.isUsuarioAutenticado} deslogar={context.encerrarSessao}/>}
+  </AuthConsumer>
+);

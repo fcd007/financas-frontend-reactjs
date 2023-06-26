@@ -9,23 +9,23 @@ export default class ContextAutenticacao extends React.Component {
 
   state = {
     usuarioAutenticado: null,
-    isAutenticado: false
+    isUsuarioAutenticado: false
   }
 
   iniciarSessao = (usuario) => {
     AuthService.logar(usuario);
-    this.setState({ isAutenticado: true, usuarioAutenticado: usuario});
+    this.setState({ isUsuarioAutenticado: true, usuarioAutenticado: usuario});
   }
 
   encerrarSessao = () => {
     AuthService.removerUsuarioAutenticado();
-    this.setState({ isAutenticado: false, usuarioAutenticado: null})
+    this.setState({ isUsuarioAutenticado: false, usuarioAutenticado: null})
   }
 
   render() {
     const context = {
       usuarioAutenticado: this.state.usuarioAutenticado,
-      isAutenticado: this.state.isAutenticado,
+      isUsuarioAutenticado: this.state.isUsuarioAutenticado,
       iniciarSessao: this.iniciarSessao,
       encerrarSessao: this.encerrarSessao,
     }
