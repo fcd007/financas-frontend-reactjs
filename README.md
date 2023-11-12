@@ -1,47 +1,42 @@
 # CRUD Client ReactJS REST API with Spring Boot
 
-CRUD ReactJS + Spring, Hibernate, Docker, PostgreSQL
+CRUD ReactJS + Bootstrap
 
 This API is to showcase, especially for beginners, what a basic CRUD API that's close to being Production-ready looks like.
 
-## 💻 Tecnologies
-
-- Java 17
-- Spring Boot 3 (Spring 6)
-- JPA + Hibernate
-- JUnit 5 + Mockito (back-end tests)
-- Maven
+## 💻 Tecnologias
 - React v18
 - Bootstrap V5+ Material CSS Icons
 - Karma + Jasmine (front-end tests)
 
+  # 🚨 Requisitos
+- O projeto foi construído utilizando  **ReactJS 17+** ou **Angular 14+** ( Versão V1 Reactjs, Versão V2 Angular);
+- Instalar Node.js 16+ LTS, pode usar o NVM para gerenciar as versões;
+- ReactJS 17+ como base para os recursos disponibilizados no projeto;
+
 ## ⌨️ Editor / IDE
 
 - Visual Studio Code
-- Eclipse [link](https://marketplace.visualstudio.com/items?itemName=loiane.java-spring-extension-pack)
 - React Extensions [link](https://marketplace.visualstudio.com/items?itemName=loiane.angular-extension-pack)
 
-## Some functionalities available in the API
+# 🕵🏻‍♂️ Itens do cliente Frontend
+- Estrutura do Projeto
+- Boas práticas da Linguagem/Framework
+- Integração com API
+- Bibliotecas utilizadas
+- Estilização dos componentes
+- Persistência de login
+- Layout responsivo
+- Friendly URL
 
-- ✅ Java model class with validation
-- ✅ JPA repository
-- ✅ JPA Pagination
-- ✅ Controller, Service, and Repository layers
-- ✅ Has-Many relationships (User-financial entry)
-- ✅ Java 17 Records as DTO (Data Transfer Object)
-- ✅ Hibernate / Jakarta Validation
-- ✅ Unit tests for all layers (repository, service, controller)
-- ✅ Test coverage for tests
-- ✅ Spring Docs - Swagger (https://springdoc.org/v2/)
+# 🎁 Devemos usar
+- Testes unitários
+- SEO
+- Linter
+- Code Formater
+- Documentação de componente - StoryBook
 
-### Not implemented (maybe in a future version)
-
-- Security (Authorization and Authentication) - JWT
-- Caching
-- Data Compression
-- CI/CD Travis/Github/Gitlab
-
-## Some functionalities available in the Front-end
+## Algumas funcionalidades disponíveis no cliente Frontend
 
 - ✅ React Class components (React v16+)
 - ✅ Bootstramp V4+
@@ -54,13 +49,7 @@ This API is to showcase, especially for beginners, what a basic CRUD API that's 
 
 ## ❗️Executing the code locally
 
-### Executing the back-end
-
-You need to have Java and Maven installed and configured locally.
-
-Open the `crud-spring` project in your favorite IDE as a Maven project and execute it as Spring Boot application.
-
-### Executing the front-end
+### Executing the frontend
 
 You need to have Node.js 16+ LTS/ NPM installed locally.
 
